@@ -2,10 +2,14 @@
 
 namespace App\Controllers;
 
+use App\Models\Tarea;
+
 class Home extends BaseController
 {
-    public function index(): string
+    public function inicio()
     {
-        return view('welcome_message');
+        $modeloTarea = new Tarea();
+        $data['tareas'] = $modeloTarea->obtenerTareas();
+        return view('inicioView', $data);
     }
 }
