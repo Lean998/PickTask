@@ -12,15 +12,20 @@ class TareaController extends BaseController{
     
     
     public function mostrarDetalles(){
+
         $modeloTarea = new Tarea();
         $modeloSubTarea = new Subtarea();
         $modeloMiembroSubtarea = new MiembroSubtarea();
         $modeloColaboracion = new Colaboracion();
-        if (isset($this->request) && $this->request->getPost('tarea_id') !== null) {
-    $idTarea = $this->request->getPost('tarea_id');
-    } else {
-         return redirect()->to('/');
-    }
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $idTarea = $idTarea = session()->getFlashdata('tarea_id');
+        }else{
+            $idTarea = $this->request->getPost('tarea_id');
+            session()->setFlashdata('tarea_id', $idTarea);
+        }
+
+  
+        $modeloTarea->actualizarEstadoPorSubtareas($idTarea);
         $subTareas = $modeloSubTarea->obtenerSubTareas($idTarea);
         $data['tarea'] = $modeloTarea->obtenerTarea($idTarea);
         $data['subTareas'] = $subTareas;
@@ -60,7 +65,7 @@ $colaboradores = $modeloColaboracion
             default: return ['#CCCCCC', '#F9F9F9'];
         }
     };
-
+        $modeloTarea->actualizarEstadoPorSubtareas($idTarea);
         $data['colaboradores_disponibles'] = $colaboradoresDisponibles;
         return view('tareaView', $data);
     }
@@ -72,14 +77,28 @@ $colaboradores = $modeloColaboracion
 
     public function guardar()
     {
-        if (isset($this->request) && $this->request->getPost('tarea_id') !== null) {
-    $idTarea = $this->request->getPost('tarea_id');
-    } else {
-        $idTarea = session()->getFlashdata('tarea_id');
-    }
-
         $modeloTarea = new Tarea();
-        $data = [
+
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $idTarea = $idTarea = session()->getFlashdata('tarea_id');
+            $TareaCompleta = $modeloTarea->obtenerTarea($idTarea);
+
+            $data = [
+            'usuario_id' => session('id_usuario') ?? 1, 
+            'titulo' => $TareaCompleta['titulo'],
+            'descripcion' => $TareaCompleta['descripcion'],
+            'estado' => 'definida',
+            'prioridad' => $TareaCompleta['prioridad'],
+            'fecha_vencimiento' => $TareaCompleta['fecha_vencimiento'],
+            'fecha_recordatorio' => $TareaCompleta['fecha_recordatorio'],
+            'color' => $TareaCompleta['color'],
+            'archivada' => 0
+        ];
+            
+        }else{
+            $idTarea = $this->request->getPost('tarea_id');
+            session()->setFlashdata('tarea_id', $idTarea);
+            $data = [
             'usuario_id' => session('id_usuario') ?? 1, 
             'titulo' => $this->request->getPost('titulo'),
             'descripcion' => $this->request->getPost('descripcion'),
@@ -90,8 +109,12 @@ $colaboradores = $modeloColaboracion
             'color' => $this->request->getPost('color'),
             'archivada' => 0
         ];
+        }
+
+        $modeloTarea->actualizarEstadoPorSubtareas($idTarea);
+        
         if ($modeloTarea->insert($data)) {
-            return redirect()->to('/')->with('mensaje', 'Tarea creada con éxito');
+            return redirect()->to('/tarea')->with('mensaje', 'Tarea creada con éxito');
         } else {
             dd($modeloTarea->errors());
         }
@@ -123,7 +146,10 @@ $colaboradores = $modeloColaboracion
         ];
         $modeloTarea->update($id, $data);
         $modeloTarea->actualizarEstadoPorSubtareas($id);
-        return redirect()->to('/')->with('mensaje', 'Tarea actualizada con éxito');
+        $idTarea = $idTarea = session()->getFlashdata('tarea_id');
+        $modeloTarea->actualizarEstadoPorSubtareas($idTarea);
+        session()->setFlashdata('tarea_id', $idTarea);
+        return redirect()->to('/tarea')->with('mensaje', 'Tarea actualizada con éxito');
     }
 
     // En vez de borrar, se archiva
@@ -151,6 +177,7 @@ $colaboradores = $modeloColaboracion
         $usuarioId = session('id_usuario') ?? 1;
         $data['tareasArchivadas'] = $modeloTarea->obtenerTareasArchivadas($usuarioId);
         $data['tareasActivas'] = $modeloTarea->obtenerTareasNoArchivadas($usuarioId);
+        $data['tareasFinalizadas'] = $modeloTarea->where('estado', 'completada')->findAll();
         return view('historialView', $data);
     }
 
@@ -160,6 +187,21 @@ $colaboradores = $modeloColaboracion
         $tareaModel = new Tarea(); 
         $data['tareas_colaborativas'] = $tareaModel->obtenerTareasColaborativas($usuario_id); 
         return view('inicioView', $data); 
+    }
+
+    public function cambiarEstado()
+    {
+
+        $estado = $this->request->getPost('estado');
+        $tarea_id = $this->request->getPost('tarea_id');
+        $modeloTarea = new Tarea();
+        $modeloTarea->cambiarEstado($tarea_id,$estado);
+        $modeloTarea->actualizarEstadoPorSubtareas($tarea_id);
+
+        $idTarea = $idTarea = session()->getFlashdata('tarea_id');
+        session()->setFlashdata('tarea_id', $idTarea);
+
+        return redirect()->to('/tarea')->with('mensaje', 'Cambio de estado actualizado con éxito.');
     }
 
 }

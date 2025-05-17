@@ -18,7 +18,8 @@
         }
 
         .navbar {
-            background: linear-gradient(to right, #fef5e6,rgb(252, 237, 197));
+            background: transparent; 
+            backdrop-filter: blur(8px);
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
             border-bottom: 3px solid #FFA600;
             padding: 0.5rem 1rem;
@@ -346,6 +347,51 @@
             background: #FF8C00;
         }
 
+        .cuenta-container {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .cuenta-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            padding: 0;
+            white-space: nowrap;
+            background-color: #FFA600;
+            color: white;
+            font-weight: bold;
+            overflow: hidden;
+            position: relative;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .cuenta-btn .texto-cuenta {
+            display: none;
+            margin-left: 6px;
+            font-size: 0.8rem;
+        }
+
+        .cuenta-btn:hover .texto-cuenta {
+            display: inline;
+        }
+
+        .cuenta-btn:hover {
+            width: auto;
+            padding: 0 10px;
+            border-radius: 20px;
+        }
+
+
+        
+
         /* Responsive */
         @media (max-width: 992px) {
             .columnas-historial {
@@ -367,10 +413,10 @@
             
             <div class="navbar-container">
                 <ul class="navbar-nav flex-row">
-                    <li class="nav-item"><a class="nav-link" href="<?= base_url('tareas') ?>">Tablero</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="<?= base_url('/') ?>">Tablero</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= base_url('tareas/crear') ?>">Crear</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="<?= base_url('tareas/historial') ?>">Historial</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= base_url('tareas/colaborar') ?>">Colaborar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= base_url('tareas/historial') ?>">Historial</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= base_url('/Colaborar') ?>">Colaborar</a></li>
                 </ul>
             </div>
 
@@ -394,55 +440,55 @@
         <h2 class="seccion-titulo">Historial de Tareas</h2>
 
         <div class="columnas-historial">
-            <!-- Columna de Tareas Activas -->
-            <div class="columna-tareas">
-                <h3 class="titulo-columna">
-                    <i class="bi bi-lightning-charge-fill"></i> Finalizadas
-                </h3>
-                
-                <div class="tareas-container">
-                    <?php if (empty($tareasActivas)): ?>
-                        <div class="mensaje-vacio">
-                            <p>No hay tareas activas.</p>
-                            <a href="<?= base_url('tareas/crear') ?>" class="btn btn-crear-tarea">
-                                <i class="bi bi-plus-circle"></i> Crear tarea
-                            </a>
-                        </div>
-                    <?php else: ?>
-                        <?php foreach ($tareasActivas as $tarea): ?>
-                            <?php
-                            $prioridad = strtolower($tarea['prioridad']);
-                            $clasePrioridad = match ($prioridad) {
-                                'baja' => 'borde-prioridad-baja',
-                                'normal' => 'borde-prioridad-normal',
-                                'alta' => 'borde-prioridad-alta',
-                                default => '',
-                            };
-                            ?>
-                            <div class="tarea-card <?= $clasePrioridad ?>">
-                                <div class="tarea-titulo"><?= esc($tarea['titulo']) ?></div>
-                                <div class="tarea-descripcion"><?= esc($tarea['descripcion']) ?></div>
-                                <div class="tarea-meta">
-                                    <strong>Estado:</strong> 
-                                    <span class="badge"><?= esc($tarea['estado']) ?></span>
-                                </div>
-                                <div class="tarea-meta">
-                                    <strong>Prioridad:</strong> 
-                                    <span class="badge"><?= esc($tarea['prioridad']) ?></span>
-                                </div>
-                                <div class="tarea-meta">
-                                    <strong>Vence:</strong> <?= esc($tarea['fecha_vencimiento']) ?>
-                                </div>
-                                <?php if (!empty($tarea['fecha_recordatorio'])): ?>
-                                    <div class="tarea-meta">
-                                        <strong>Recordatorio:</strong> <?= esc($tarea['fecha_recordatorio']) ?>
-                                    </div>
-                                <?php endif; ?>
+        <!-- Columna de Tareas Finalizadas -->
+        <div class="columna-tareas">
+            <h3 class="titulo-columna">
+                <i class="bi bi-lightning-charge-fill"></i> Finalizadas
+            </h3>
+            
+            <div class="tareas-container">
+                <?php if (empty($tareasFinalizadas)): ?>
+                    <div class="mensaje-vacio">
+                        <p>No hay tareas finalizadas.</p>
+                        <a href="<?= base_url('tareas/crear') ?>" class="btn btn-crear-tarea">
+                            <i class="bi bi-plus-circle"></i> Crear tarea
+                        </a>
+                    </div>
+                <?php else: ?>
+                    <?php foreach ($tareasFinalizadas as $tarea): ?>
+                        <?php
+                        $prioridad = strtolower($tarea['prioridad']);
+                        $clasePrioridad = match ($prioridad) {
+                            'baja' => 'borde-prioridad-baja',
+                            'normal' => 'borde-prioridad-normal',
+                            'alta' => 'borde-prioridad-alta',
+                            default => '',
+                        };
+                        ?>
+                        <div class="tarea-card <?= $clasePrioridad ?>">
+                            <div class="tarea-titulo"><?= esc($tarea['titulo']) ?></div>
+                            <div class="tarea-descripcion"><?= esc($tarea['descripcion']) ?></div>
+                            <div class="tarea-meta">
+                                <strong>Estado:</strong> 
+                                <span class="badge"><?= esc($tarea['estado']) ?></span>
                             </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
+                            <div class="tarea-meta">
+                                <strong>Prioridad:</strong> 
+                                <span class="badge"><?= esc($tarea['prioridad']) ?></span>
+                            </div>
+                            <div class="tarea-meta">
+                                <strong>Vence:</strong> <?= esc($tarea['fecha_vencimiento']) ?>
+                            </div>
+                            <?php if (!empty($tarea['fecha_recordatorio'])): ?>
+                                <div class="tarea-meta">
+                                    <strong>Recordatorio:</strong> <?= esc($tarea['fecha_recordatorio']) ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
+        </div>
 
             <!-- Columna de Tareas Archivadas -->
             <div class="columna-tareas archivadas">
@@ -485,9 +531,7 @@
                                         <strong>Recordatorio:</strong> <?= esc($tarea['fecha_recordatorio']) ?>
                                     </div>
                                 <?php endif; ?>
-                                <div class="tarea-meta">
-                                    <strong>Archivada:</strong> <?= esc($tarea['fecha_archivado']) ?>
-                                </div>
+                        
                             </div>
                         <?php endforeach; ?>
                     <?php endif; ?>

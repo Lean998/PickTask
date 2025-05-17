@@ -18,7 +18,8 @@
         }
 
         .navbar {
-            background: linear-gradient(to right, #fef5e6,rgb(252, 237, 197));
+            background: transparent; /* Cambia el gradiente por transparente */
+    backdrop-filter: blur(8px); /* Efecto de vidrio esmerilado */
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
             border-bottom: 3px solid #FFA600;
             padding: 0.5rem 1rem;
@@ -261,15 +262,17 @@
             font-size: 0.8rem;
         }
 
+        .cuenta-btn:hover .texto-cuenta {
+            display: inline;
+        }
+
         .cuenta-btn:hover {
             width: auto;
             padding: 0 10px;
             border-radius: 20px;
         }
 
-        .cuenta-btn:hover .texto-cuenta {
-            display: inline;
-        }
+        
 
         .dropdown-menu {
             min-width: 160px;
@@ -401,6 +404,14 @@
             transform: translateY(-1px);
             box-shadow: 0 2px 6px rgba(255, 140, 0, 0.3);
         }
+
+        .prioridad-icono {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 16px;
+            height: 16px;
+        }
     </style>
 </head>
 <body>
@@ -439,7 +450,7 @@
             
             <div class="navbar-container">
                 <ul class="navbar-nav flex-row">
-                    <li class="nav-item"><a class="nav-link active" href="<?= base_url('tareas') ?>">Tablero</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="<?= base_url('/') ?>">Tablero</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= base_url('tareas/crear') ?>">Crear</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= base_url('tareas/historial') ?>">Historial</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= base_url('/Colaborar') ?>">Colaborar</a></li>
@@ -464,121 +475,200 @@
 
     <div class="container">
         <h2 class="seccion-titulo">Mis Tareas</h2>
-        
-        <div class="tareas-container" id="tareasContainer">
-            <?php if (!empty($tareas_propias)): ?>
-                <?php foreach ($tareas_propias as $tarea): ?>
-                    <?php
-                    $prioridad = strtolower($tarea['prioridad']);
-                    $clasePrioridad = match ($prioridad) {
-                        'baja' => 'borde-prioridad-baja',
-                        'normal' => 'borde-prioridad-normal',
-                        'alta' => 'borde-prioridad-alta',
-                        default => '',
-                    };
-                    ?>
-                    
-                    <div class="tarea-card <?= $clasePrioridad ?>"
-                         style="border-top-color: <?= esc(obtenerColoresTarea($tarea['color'])) ?>">
-                        <form method="POST" action="<?= site_url('tarea') ?>" style="margin: 0;">
-                            <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
-                            <button type="submit" style="all: unset; cursor: pointer; display: block; width: 100%;">
-                                <div class="tarea-titulo"><?= esc($tarea['titulo']) ?></div>
-                                <div class="tarea-descripcion"><?= esc($tarea['descripcion']) ?></div>
-                                <div class="tarea-meta">
-                                    <strong>Estado:</strong> 
-                                    <span class="badge"><?= esc($tarea['estado']) ?></span>
-                                </div>
-                                <div class="tarea-meta">
-                                    <strong>Prioridad:</strong> 
-                                    <span class="badge"><?= esc($tarea['prioridad']) ?></span>
-                                </div>
-                                <div class="tarea-meta">
-                                    <strong>Vence:</strong> <?= esc($tarea['fecha_vencimiento']) ?>
-                                </div>
-                                <?php if (!empty($tarea['fecha_recordatorio'])): ?>
-                                    <div class="tarea-meta">
-                                        <strong>Recordatorio:</strong> <?= esc($tarea['fecha_recordatorio']) ?>
-                                    </div>
-                                <?php endif; ?>
-                            </button>
-                        </form>
 
-                        <div class="acciones-tarea">
-                            <form action="<?= site_url('tarea/editar') ?>" method="post">
-                                <input type="hidden" name="id_tarea" value="<?= esc($tarea['id']) ?>">
-                                <button type="submit" class="accion-btn editar">
-                                    <i class="bi bi-pencil"></i> Editar
-                                </button>
-                            </form>
-                            <form action="<?= site_url('tarea/baja') ?>" method="post">
-                                <input type="hidden" name="id_tarea" value="<?= esc($tarea['id']) ?>">
-                                <button type="submit" class="accion-btn eliminar">
-                                    <i class="bi bi-trash"></i> Eliminar
-                                </button>
-                            </form>
+<div class="tareas-container" id="tareasContainer">
+    <?php if (!empty($tareas_propias)): ?>
+        <?php foreach ($tareas_propias as $tarea): ?>
+            <?php
+            $prioridad = strtolower($tarea['prioridad']);
+            $clasePrioridad = match ($prioridad) {
+                'baja' => 'borde-prioridad-baja',
+                'normal' => 'borde-prioridad-normal',
+                'alta' => 'borde-prioridad-alta',
+                default => '',
+            };
+            
+            // Color del icono según prioridad
+            switch ($prioridad) {
+                case 'alta':
+                    $colorIcono = '#E53935'; // rojo fuerte
+                    break;
+                case 'normal':
+                    $colorIcono = '#FFB300'; // amarillo anaranjado
+                    break;
+                case 'baja':
+                    $colorIcono = '#43A047'; // verde fuerte
+                    break;
+                default:
+                    $colorIcono = '#BDBDBD'; // gris neutro
+            }
+            ?>
+            
+            <div class="tarea-card <?= $clasePrioridad ?>"
+                 style="border-top-color: <?= esc(obtenerColoresTarea($tarea['color'])) ?>;
+            border-bottom-color: <?= esc(obtenerColoresTarea($tarea['color'])) ?>;
+            border-top-style: solid;
+            border-bottom-style: solid;
+            border-top-width: 4px;
+            border-bottom-width: 4px;
+            position: relative;">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="<?= $colorIcono ?>" 
+         class="bi bi-exclamation-diamond-fill"
+         viewBox="0 0 16 16"
+         style="position: absolute; top: 8px; right: 8px;">
+        <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+    </svg>
+                
+                <form method="POST" action="<?= site_url('tarea') ?>" style="margin: 0;">
+                    <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
+                    <button type="submit" style="all: unset; cursor: pointer; display: block; width: 100%;">
+                        <div class="tarea-titulo"><?= esc($tarea['titulo']) ?></div>
+                        <div class="tarea-descripcion"><?= esc($tarea['descripcion']) ?></div>
+                        <div class="tarea-meta">
+                            <strong>Estado:</strong> 
+                            <span class="badge"><?= esc($tarea['estado']) ?></span>
                         </div>
-
-                        <?php if ($tarea['estado'] === 'completada' && !$tarea['archivada']): ?>
-                            <a href="<?= site_url('tarea/archivar/' . $tarea['id']) ?>" class="accion-btn archivar">
-                                <i class="bi bi-archive"></i> Archivar
-                            </a>
+                        <div class="tarea-meta">
+                            <strong>Prioridad:</strong> 
+                            <span class="badge"><?= esc($tarea['prioridad']) ?></span>
+                        </div>
+                        <div class="tarea-meta">
+                            <strong>Vence:</strong> <?= esc($tarea['fecha_vencimiento']) ?>
+                        </div>
+                        <?php if (!empty($tarea['fecha_recordatorio'])): ?>
+                            <div class="tarea-meta">
+                                <strong>Recordatorio:</strong> <?= esc($tarea['fecha_recordatorio']) ?>
+                            </div>
                         <?php endif; ?>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <div class="mensaje-vacio">
-                    <p>No tienes tareas propias activas.</p>
-                    <a href="<?= base_url('tareas/crear') ?>" class="btn btn-crear-tarea">
-                        <i class="bi bi-plus-circle"></i> Crear tarea
-                    </a>
+                    </button>
+                </form>
+
+                <div class="acciones-tarea">
+                    <form action="<?= site_url('tarea/editar') ?>" method="post">
+                        <input type="hidden" name="id_tarea" value="<?= esc($tarea['id']) ?>">
+                        <button type="submit" class="accion-btn editar">
+                            <i class="bi bi-pencil"></i> Editar
+                        </button>
+                    </form>
+                    <form action="<?= site_url('tarea/baja') ?>" method="post">
+                        <input type="hidden" name="id_tarea" value="<?= esc($tarea['id']) ?>">
+                        <button type="submit" class="accion-btn eliminar">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </button>
+                    </form>
                 </div>
-            <?php endif; ?>
+
+                <?php if ($tarea['estado'] === 'completada' && !$tarea['archivada']): ?>
+                    <a href="<?= site_url('tarea/archivar/' . $tarea['id']) ?>" class="accion-btn archivar">
+                        <i class="bi bi-archive"></i> Archivar
+                    </a>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <div class="mensaje-vacio">
+            <p>No tienes tareas propias activas.</p>
+            <a href="<?= base_url('tareas/crear') ?>" class="btn btn-crear-tarea">
+                <i class="bi bi-plus-circle"></i> Crear tarea
+            </a>
         </div>
+    <?php endif; ?>
+</div>
 
         <h2 class="seccion-titulo">Mis Colaboraciones</h2>
-        
-        <div class="tareas-container">
-            <?php if (!empty($tareas_colaborativas)): ?>
-                <?php foreach ($tareas_colaborativas as $tarea): ?>
-                    <div class="tarea-card"
-                         style="border-top-color: <?= esc(obtenerColoresTarea($tarea['color'])) ?>">
-                        <form method="POST" action="<?= site_url('tarea/colaborar') ?>" style="margin: 0;">
-                            <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
-                            <button type="submit" style="all: unset; cursor: pointer; display: block; width: 100%;">
-                                <div class="tarea-titulo"><?= esc($tarea['titulo']) ?></div>
-                                <div class="tarea-descripcion"><?= esc($tarea['descripcion']) ?></div>
-                                <div class="tarea-meta">
-                                    <strong>Estado:</strong> 
-                                    <span class="badge"><?= esc($tarea['estado']) ?></span>
-                                </div>
-                                <div class="tarea-meta">
-                                    <strong>Prioridad:</strong> 
-                                    <span class="badge"><?= esc($tarea['prioridad']) ?></span>
-                                </div>
-                                <div class="tarea-meta">
-                                    <strong>Vence:</strong> <?= esc($tarea['fecha_vencimiento']) ?>
-                                </div>
-                                <?php if (!empty($tarea['fecha_recordatorio'])): ?>
-                                    <div class="tarea-meta">
-                                        <strong>Recordatorio:</strong> <?= esc($tarea['fecha_recordatorio']) ?>
-                                    </div>
-                                <?php endif; ?>
-                                <div class="tarea-meta">
-                                    <strong>Propietario:</strong> <?= esc($tarea['usuario_id']) ?>
-                                </div>
-                            </button>
-                        </form>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <div class="mensaje-vacio">
-                    <p>No hay tareas colaborativas disponibles.</p>
-                </div>
-            <?php endif; ?>
-        </div>
-    </div>
 
+<div class="tareas-container" id="tareasContainer">
+    <?php if (!empty($tareas_colaborativas)): ?>
+        <?php foreach ($tareas_colaborativas as $tarea): ?>
+            <?php
+            $prioridad = strtolower($tarea['prioridad']);
+            $clasePrioridad = match ($prioridad) {
+                'baja' => 'borde-prioridad-baja',
+                'normal' => 'borde-prioridad-normal',
+                'alta' => 'borde-prioridad-alta',
+                default => '',
+            };
+            
+            // Color del icono según prioridad
+            switch ($prioridad) {
+                case 'alta':
+                    $colorIcono = '#E53935'; // rojo fuerte
+                    break;
+                case 'normal':
+                    $colorIcono = '#FFB300'; // amarillo anaranjado
+                    break;
+                case 'baja':
+                    $colorIcono = '#43A047'; // verde fuerte
+                    break;
+                default:
+                    $colorIcono = '#BDBDBD'; // gris neutro
+            }
+            ?>
+            
+            <div class="tarea-card <?= $clasePrioridad ?>"
+                 style="border-top-color: <?= esc(obtenerColoresTarea($tarea['color'])) ?>;
+            border-bottom-color: <?= esc(obtenerColoresTarea($tarea['color'])) ?>;
+            border-top-style: solid;
+            border-bottom-style: solid;
+            border-top-width: 4px;
+            border-bottom-width: 4px;
+            position: relative;">
+                <!-- Icono de prioridad -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="<?= $colorIcono ?>" 
+                     class="bi bi-exclamation-diamond-fill" viewBox="0 0 16 16"
+                     style="position: absolute; top: 8px; right: 8px;">
+                    <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                </svg>
+                
+                <form method="POST" action="<?= site_url('tarea/colaborar') ?>" style="margin: 0;">
+                    <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
+                    <button type="submit" style="all: unset; cursor: pointer; display: block; width: 100%;">
+                        <div class="tarea-titulo"><?= esc($tarea['titulo']) ?></div>
+                        <div class="tarea-descripcion"><?= esc($tarea['descripcion']) ?></div>
+                        <div class="tarea-meta">
+                            <strong>Estado:</strong> 
+                            <span class="badge"><?= esc($tarea['estado']) ?></span>
+                        </div>
+                        <div class="tarea-meta">
+                            <strong>Prioridad:</strong> 
+                            <span class="badge"><?= esc($tarea['prioridad']) ?></span>
+                        </div>
+                        <div class="tarea-meta">
+                            <strong>Vence:</strong> <?= esc($tarea['fecha_vencimiento']) ?>
+                        </div>
+                        <?php if (!empty($tarea['fecha_recordatorio'])): ?>
+                            <div class="tarea-meta">
+                                <strong>Recordatorio:</strong> <?= esc($tarea['fecha_recordatorio']) ?>
+                            </div>
+                        <?php endif; ?>
+                        <div class="tarea-meta">
+                            <strong>Propietario:</strong> <?= esc($tarea['usuario_id']) ?>
+                        </div>
+                    </button>
+                </form>
+
+                <div class="acciones-tarea">
+                    <form action="<?= site_url('tarea/colaborar') ?>" method="post">
+                        <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
+                        <button type="submit" class="accion-btn editar">
+                            <i class="bi bi-eye"></i> Ver
+                        </button>
+                    </form>
+                    <form action="<?= site_url('tarea/dejar_colaboracion') ?>" method="post">
+                        <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
+                        <button type="submit" class="accion-btn eliminar">
+                            <i class="bi bi-person-dash"></i> Dejar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <div class="mensaje-vacio">
+            <p>No hay tareas colaborativas disponibles.</p>
+        </div>
+    <?php endif; ?>
+</div>
     <script>
         // Animación de aparición de las tarjetas
         window.addEventListener("DOMContentLoaded", () => {

@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Invitacion;
 
-class InvitacionController extends BaseController
+class invitacionController extends BaseController
 {
     public function enviarCorreo()
 {
@@ -18,14 +18,23 @@ class InvitacionController extends BaseController
 
     $email = \Config\Services::email();
 
-    $email->setSubject('Te invitamos a colaborar en una nueva tarea');
+    $email->setTo($correo);
+    $email->setSubject('📩 Invitación para colaborar en una tarea de MiTareas');
+    $email->setMailType('html'); 
+
 $email->setMessage("
+    <h2 style='color:#FFA600;'>¡Has recibido una invitación!</h2>
     <p>Hola,</p>
-    <p>Queremos invitarte a formar parte de una tarea colaborativa. Tu participación es importante para nosotros.</p>
-    <p>Para unirte, simplemente utiliza el siguiente código de invitación:</p>
-    <p style='font-size: 18px; font-weight: bold; color: #2c3e50;'>$codigo</p>
-    <p>Ingresa este código en la plataforma y comienza a colaborar.</p>
-    <p>¡Gracias por ser parte de este proyecto!</p>
+    <p>Te han invitado a colaborar en una tarea dentro de la plataforma <strong>PickTask</strong>. Para unirte, simplemente ingresa el siguiente código en la sección <em>“Colaborar”</em>:</p>
+    
+    <div style='padding: 10px; background-color: #f4f4f4; border-left: 5px solid #FFA600; margin: 20px 0; font-size: 1.3em;'>
+        <strong>Código de invitación:</strong> <span style='color:#333;'>$codigo</span>
+    </div>
+
+    <p>Este código es único y tiene validez por tiempo limitado.</p>
+    <p style='margin-top: 20px;'>¡Esperamos contar contigo!</p>
+    <hr>
+    <p style='font-size: 0.9em; color: #888;'>Este correo fue generado automáticamente por el sistema MiTareas. Por favor, no respondas a este mensaje.</p>
 ");
 
 
@@ -66,18 +75,14 @@ public function IniciarColaboracion()
         return redirect()->to('/login')->with('error', 'Debes iniciar sesión para colaborar.');
     }
 
-    // Validar que el correo coincida con el de la invitación
     if (strtolower($correoSesion) !== strtolower($invitacion['correo'])) {
         return redirect()->back()->with('error', 'Este código no corresponde a tu correo.');
     }
 
-    // Crear colaboración
     $modeloColaboracion->agregarColaboracion($invitacion['tarea_id'], $usuarioId);
 
-    // Marcar invitación como aceptada
     $modeloInvitacion->marcarComoAceptada($codigo);
 
-    // Redirigir a la vista de la tarea
     session()->setFlashdata('tarea_id', $invitacion['tarea_id']);
     return redirect()->to('/')->with('success', '¡Te uniste correctamente a la tarea!');
 }

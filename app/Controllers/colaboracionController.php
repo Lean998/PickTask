@@ -24,6 +24,7 @@ class ColaboracionController extends BaseController{
     } else {
         $idTarea = session()->getFlashdata('tarea_id');
     }
+    $modeloTarea->actualizarEstadoPorSubtareas($idTarea);
         $subTareas = $modeloSubTarea->obtenerSubTareas($idTarea);
         $data['idTarea'] = $idTarea;
         $data['tarea'] = $modeloTarea->obtenerTarea($idTarea);

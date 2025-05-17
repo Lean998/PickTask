@@ -2,9 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>Detalles de la Tarea</title>
     <style>
@@ -19,38 +17,47 @@
         }
         
         body {
-    background: linear-gradient(to bottom, #FFA600, #f0f0f0); /* degradado invertido */
-    font-family: 'Segoe UI', sans-serif;
-    padding: 20px;
-    font-size: 0.9rem;
-    margin: 0;
-    min-height: 100vh;
-}
+            background: linear-gradient(to bottom, #FFA600, #f0f0f0); 
+            font-family: 'Segoe UI', sans-serif;
+            padding: 20px;
+            font-size: 0.9rem;
+            margin: 0;
+            min-height: 100vh;
+        }
         
-.tarea-card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-    padding: 25px 30px;
-    margin-bottom: 30px;
-    border-left: 6px solid <?= esc($tarea['color']); ?>;
-    transition: all 0.2s ease-in-out;
-}
+        /* Estilos para prioridades */
+        .borde-prioridad-baja {
+            border-top-color: #22c55e !important; /* verde */
+            border-bottom-color: #22c55e !important;
+        }
 
-.tarea-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-        .header-section {
-            margin-bottom: 30px;
+        .borde-prioridad-normal {
+            border-top-color: #FFD700 !important; /* amarillo */
+            border-bottom-color: #FFD700 !important;
+        }
+
+        .borde-prioridad-alta {
+            border-top-color: #ef4444 !important; /* rojo */
+            border-bottom-color: #ef4444 !important;
         }
         
         .tarea-card {
-            border-radius: 10px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            padding: 25px 30px;
             margin-bottom: 30px;
-            border-left: 5px solid;
+            transition: all 0.2s ease-in-out;
+            position: relative;
+        }
+
+        .tarea-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-section {
+            margin-bottom: 30px;
         }
         
         .subtareas-container {
@@ -64,9 +71,11 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             padding: 20px;
-            border-left: 4px solid;
+            border-top: 4px solid;
+            border-bottom: 4px solid;
             transition: transform 0.2s;
             background-color: white;
+            position: relative;
         }
         
         .subtarea-card:hover {
@@ -185,6 +194,15 @@
             border-radius: 10px;
             padding: 20px;
         }
+
+        /* Icono de prioridad */
+        .prioridad-icono {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+        }
     </style>
 </head>
 <body>
@@ -194,28 +212,65 @@
         </div>
         <?php
         function obtenerColoresTarea($colorNombre)
-{
-    switch (strtolower($colorNombre)) {
-        case 'rojo':
-            return ['#FF6B6B', '#FFECEC'];
-        case 'azul':
-            return ['#1E90FF', '#E6F0FF'];
-        case 'verde':
-            return ['#28A745', '#E9F7EF'];
-        case 'naranja':
-            return ['#FFA600', '#FFF3E0'];
-        case 'celeste':
-            return ['#00C1FF', '#E0F7FF'];
-        case 'gris':
-            return ['#6C757D', '#F0F0F0'];
-        case 'violeta':
-            return ['#8A2BE2', '#F3E8FF'];
-        default:
-            return ['#CCCCCC', '#F9F9F9'];
-    }
-} ?>
+        {
+            switch (strtolower($colorNombre)) {
+                case 'rojo':
+                    return ['#FF6B6B', '#FFECEC'];
+                case 'azul':
+                    return ['#1E90FF', '#E6F0FF'];
+                case 'verde':
+                    return ['#28A745', '#E9F7EF'];
+                case 'naranja':
+                    return ['#FFA600', '#FFF3E0'];
+                case 'celeste':
+                    return ['#00C1FF', '#E0F7FF'];
+                case 'gris':
+                    return ['#6C757D', '#F0F0F0'];
+                case 'violeta':
+                    return ['#8A2BE2', '#F3E8FF'];
+                default:
+                    return ['#CCCCCC', '#F9F9F9'];
+            }
+        } ?>
         <?php if (!empty($tarea)): ?>
-            <div class="tarea-card" style="border-left-color: <?= esc($tarea['color']); ?>; background-color: <?= esc($tarea['color']); ?>22;">
+            <?php
+            $prioridad = strtolower($tarea['prioridad']);
+            $clasePrioridad = match ($prioridad) {
+                'baja' => 'borde-prioridad-baja',
+                'media' => 'borde-prioridad-normal',
+                'normal' => 'borde-prioridad-normal',
+                'alta' => 'borde-prioridad-alta',
+                default => '',
+            };
+            
+            // Color del icono según prioridad
+            switch ($prioridad) {
+                case 'alta':
+                    $colorIcono = '#E53935'; // rojo fuerte
+                    break;
+                case 'media':
+                case 'normal':
+                    $colorIcono = '#FFB300'; // amarillo anaranjado
+                    break;
+                case 'baja':
+                    $colorIcono = '#43A047'; // verde fuerte
+                    break;
+                default:
+                    $colorIcono = '#BDBDBD'; // gris neutro
+            }
+            ?>                                                  
+            <div class="tarea-card <?= $clasePrioridad ?>"
+     style="border-top: 4px solid <?= esc(obtenerColoresTarea($tarea['color'])[0]); ?>;
+            border-bottom: 4px solid <?= esc(obtenerColoresTarea($tarea['color'])[0]); ?>;
+            background-color: <?= esc(obtenerColoresTarea($tarea['color'])[1]); ?>;">
+
+                <!-- Icono de prioridad -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="<?= $colorIcono ?>" 
+                    class="bi bi-exclamation-diamond-fill prioridad-icono"
+                    viewBox="0 0 16 16">
+                    <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                </svg>
+                
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <h2><?= esc($tarea['titulo']) ?></h2>
                     <span class="badge badge-prioridad <?= esc(strtolower($tarea['prioridad'])) ?>">
@@ -247,27 +302,44 @@
                     </div>
                     
                     <div class="col-md-6">
-                        <div class="info-item">
-                            <i class="fas fa-tag"></i>
-                            <div>
-                                <small class="text-muted">Estado</small>
-                                <div>
-                                    <span class="badge bg-secondary"><?= esc($tarea['estado']) ?></span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="info-item">
-                            <i class="fas fa-palette"></i>
-                            <div>
-                                <small class="text-muted">Color</small>
-                                <div>
-                                    <span class="color-option" style="background-color: <?= esc($tarea['color']) ?>"></span>
-                                    <?= ucfirst(esc($tarea['color'])) ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="info-item" style="background-color:rgb(245, 177, 99); border-radius: 15px;">
+        <i class="fas fa-tag"></i>
+        <div>
+            <small class="text-muted">Estado</small>
+            <div>
+                <span class="badge bg-secondary"><?= esc($tarea['estado']) ?></span>
+            </div>
+        </div>
+        <div style="padding-left: 20px;">
+            <form action="<?= site_url('tarea/cambiarEstado') ?>" method="post" class="d-flex gap-3" onChange="this.submit();">
+                <?= csrf_field() ?>
+                <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="estado" id="estado_<?= $tarea['id'] ?>_definida" value="definida"
+                        <?= $tarea['estado'] === 'definida' ? 'checked' : '' ?>>
+                    <label class="form-check-label" for="estado_<?= $tarea['id'] ?>_definida">Definida</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="estado" id="estado_<?= $tarea['id'] ?>_en_proceso" value="en_proceso"
+                        <?= $tarea['estado'] === 'en_proceso' ? 'checked' : '' ?>>
+                    <label class="form-check-label" for="estado_<?= $tarea['id'] ?>_en_proceso">En Proceso</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="estado" id="estado_<?= $tarea['id'] ?>_completada" value="completada"
+                        <?= $tarea['estado'] === 'completada' ? 'checked' : '' ?>>
+                    <label class="form-check-label" for="estado_<?= $tarea['id'] ?>_completada">Completada</label>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+        
+                    
+                          
                 </div>
                 
                 <?php if (!empty($colaboradores_disponibles)): ?>
@@ -314,9 +386,43 @@
         <?php if (!empty($subtareas)): ?>
             <div class="subtareas-container">
                 <?php foreach ($subtareas as $sub): ?>
-                    <?php [$borde, $fondo] = obtenerColoresTarea($sub['color']); ?>
+                    <?php 
+                    [$borde, $fondo] = obtenerColoresTarea($sub['color']);
                     
-                    <div class="subtarea-card" style="border-left-color: <?= $borde ?>">
+                    $prioridadSubtarea = strtolower($sub['prioridad']);
+                    $clasePrioridadSubtarea = match ($prioridadSubtarea) {
+                        'baja' => 'borde-prioridad-baja',
+                        'media' => 'borde-prioridad-normal',
+                        'normal' => 'borde-prioridad-normal',
+                        'alta' => 'borde-prioridad-alta',
+                        default => '',
+                    };
+                    
+                    // Color del icono según prioridad
+                    switch ($prioridadSubtarea) {
+                        case 'alta':
+                            $colorIconoSubtarea = '#E53935'; // rojo fuerte
+                            break;
+                        case 'media':
+                        case 'normal':
+                            $colorIconoSubtarea = '#FFB300'; // amarillo anaranjado
+                            break;
+                        case 'baja':
+                            $colorIconoSubtarea = '#43A047'; // verde fuerte
+                            break;
+                        default:
+                            $colorIconoSubtarea = '#BDBDBD'; // gris neutro
+                    }
+                    ?>
+                    
+                    <div class="subtarea-card <?= $clasePrioridadSubtarea ?>" style="border-top-color: <?= $borde ?>; border-bottom-color: <?= $borde ?>; background-color: <?= $fondo ?>">
+                        <!-- Icono de prioridad -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="<?= $colorIconoSubtarea ?>" 
+                            class="bi bi-exclamation-diamond-fill prioridad-icono"
+                            viewBox="0 0 16 16">
+                            <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                        </svg>
+                        
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <h4><?= esc($sub['titulo']) ?></h4>
                             <div>
@@ -484,7 +590,6 @@
         <?php endif; ?>
     </div>
 
-    <!-- Modal Agregar Responsable -->
     <div id="modalAgregarResponsable" class="modal-custom">
         <div class="modal-content-custom">
             <h3><i class="fas fa-user-plus me-2"></i> Agregar responsable</h3>
@@ -510,7 +615,6 @@
         </div>
     </div>
 
-    <!-- Modal Invitar por Correo -->
     <div id="modalInvitarCorreo" class="modal-custom">
         <div class="modal-content-custom">
             <h3><i class="fas fa-envelope me-2"></i> Invitar colaborador</h3>
@@ -530,7 +634,6 @@
         </div>
     </div>
 
-    <!-- Modal Crear Subtarea -->
     <div id="modalCrearSubtarea" class="modal-custom">
         <div class="modal-content-custom">
             <h3><i class="fas fa-plus-circle me-2"></i> Crear nueva subtarea</h3>
@@ -592,10 +695,8 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Función para obtener colores (asegúrate de que esté definida)
         function obtenerColoresTarea(colorNombre) {
             const colores = {
                 'rojo': ['#FF6B6B', '#FFECEC'],
@@ -635,7 +736,6 @@
             document.getElementById('modalCrearSubtarea').style.display = 'none';
         }
 
-        // Manejo del formulario AJAX
         document.getElementById('formCrearSubtarea').addEventListener('submit', function(e) {
             e.preventDefault();
 

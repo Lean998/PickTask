@@ -28,12 +28,16 @@ $routes->post('subtarea/agregarResponsable', 'subTareaController::agregarRespons
 $routes->get('subtarea/agregarResponsable', 'subTareaController::agregarResponsable');
 $routes->post('/subtareas/cambiarEstado', 'subTareaController::cambiarEstado');
 $routes->get('/subtareas/cambiarEstado', 'subTareaController::cambiarEstado');
+$routes->post('/tarea/cambiarEstado', 'tareaController::cambiarEstado');
+$routes->get('tarea/cambiarEstado', 'tareaController::cambiarEstado');
+
+
 $routes->get('/redirigirATarea', 'TareaController::redirigirATarea');
-$routes->post('tarea/enviarCorreo', 'InvitacionController::enviarCorreo');
-$routes->get('tarea/enviarCorreo', 'InvitacionController::enviarCorreo');
+$routes->post('tarea/enviarCorreo', 'invitacionController::enviarCorreo');
+$routes->get('tarea/enviarCorreo', 'invitacionController::enviarCorreo');
 $routes->get('/Colaborar', 'colaboracionController::ColaborarEnTarea');
-$routes->post('invitacion/verificar', 'InvitacionController::IniciarColaboracion');
-$routes->get('invitacion/verificar', 'InvitacionController::IniciarColaboracion');
+$routes->post('invitacion/verificar', 'invitacionController::IniciarColaboracion');
+$routes->get('invitacion/verificar', 'invitacionController::IniciarColaboracion');
 $routes->get('tareas/historial', 'tareaController::historial');
 $routes->get('tarea/archivar/(:num)', 'tareaController::archivar/$1');
 $routes->post('tarea/editar', 'TareaController::editar');

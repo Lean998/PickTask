@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Detalles de la Tarea - PickTask</title>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -81,11 +82,9 @@
 
         .tarea-card {
             background-color: white;
-            border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             padding: 1.5rem;
             margin-bottom: 2rem;
-            border-top: 4px solid;
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
@@ -357,32 +356,71 @@
         </div>
     </nav>
     
-<<?php
-        function obtenerColoresTarea($colorNombre)
+<?php
+
+
+        $prioridad = strtolower($tarea['prioridad'] ?? '');
+$clasePrioridad = match ($prioridad) {
+    'alta'   => 'borde-prioridad-alta',
+    'media'  => 'borde-prioridad-normal',
+    'normal' => 'borde-prioridad-normal',
+    'baja'   => 'borde-prioridad-baja',
+    default  => '',
+};
+
+function obtenerColoresTarea($colorNombre)
 {
     switch (strtolower($colorNombre)) {
-        case 'rojo':
-            return ['#FF6B6B', '#FFECEC'];
-        case 'azul':
-            return ['#1E90FF', '#E6F0FF'];
-        case 'verde':
-            return ['#28A745', '#E9F7EF'];
-        case 'naranja':
-            return ['#FFA600', '#FFF3E0'];
-        case 'celeste':
-            return ['#00C1FF', '#E0F7FF'];
-        case 'gris':
-            return ['#6C757D', '#F0F0F0'];
-        case 'violeta':
-            return ['#8A2BE2', '#F3E8FF'];
-        default:
-            return ['#CCCCCC', '#F9F9F9'];
+        case 'rojo':     return ['#FF6B6B', '#FFECEC'];
+        case 'azul':     return ['#1E90FF', '#E6F0FF'];
+        case 'verde':    return ['#28A745', '#E9F7EF'];
+        case 'naranja':  return ['#FFA600', '#FFF3E0'];
+        case 'celeste':  return ['#00C1FF', '#E0F7FF'];
+        case 'gris':     return ['#6C757D', '#F0F0F0'];
+        case 'violeta':  return ['#8A2BE2', '#F3E8FF'];
+        default:         return ['#CCCCCC', '#F9F9F9'];
     }
 } ?>
 
     <div class="container">
         <?php if (!empty($tarea)): ?>
-            <div class="tarea-card" style="border-top-color: <?= esc($tarea['color']) ?>">
+            <?php
+$prioridad = strtolower($tarea['prioridad'] ?? '');
+$clasePrioridad = match ($prioridad) {
+    'alta'   => 'borde-prioridad-alta',
+    'media'  => 'borde-prioridad-normal',
+    'normal' => 'borde-prioridad-normal',
+    'baja'   => 'borde-prioridad-baja',
+    default  => '',
+};
+switch ($prioridad) {
+                case 'alta':
+                    $colorIcono = '#E53935'; // rojo fuerte
+                    break;
+                case 'media':
+                case 'normal':
+                    $colorIcono = '#FFB300'; // amarillo anaranjado
+                    break;
+                case 'baja':
+                    $colorIcono = '#43A047'; // verde fuerte
+                    break;
+                default:
+                    $colorIcono = '#BDBDBD'; // gris neutro
+            }
+
+?>
+            <div class="tarea-card <?= $clasePrioridad ?>"
+     style="border-top: 4px solid <?= esc(obtenerColoresTarea($tarea['color'])[0]); ?>;
+            border-bottom: 4px solid <?= esc(obtenerColoresTarea($tarea['color'])[0]); ?>;
+            background-color: <?= esc(obtenerColoresTarea($tarea['color'])[1]); ?>;">
+
+<!-- Icono de prioridad -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="<?= $colorIcono ?>" 
+                    class="bi bi-exclamation-diamond-fill prioridad-icono"
+                    viewBox="0 0 16 16">
+                    <path d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                </svg>
+
                 <h1 class="tarea-titulo"><?= esc($tarea['titulo']) ?></h1>
                 <p class="tarea-descripcion"><?= esc($tarea['descripcion']) ?></p>
                 
@@ -426,9 +464,7 @@
                             </div>
                         <?php endforeach; ?>
                         
-                        <button onclick="mostrarModalInvitar()" class="btn btn-primary mt-2" style="width: 100%;">
-                            <i class="bi bi-envelope-plus"></i> Invitar por correo
-                        </button>
+        
                     </div>
                 <?php endif; ?>
             </div>
@@ -445,7 +481,12 @@
                 <?php foreach ($subtareas as $sub): ?>
                     <?php [$borde, $fondo] = obtenerColoresTarea($sub['color']); ?>
                     
-                    <div class="subtarea-card" style="border-left-color: <?= $borde ?>">
+                    <?php [$borde, $fondo] = obtenerColoresTarea($sub['color']); ?>
+<div class="subtarea-card"
+     style="border-top: 4px solid <?= esc($borde) ?>;
+            border-bottom: 4px solid <?= esc($borde) ?>;
+            background-color: <?= esc($fondo) ?>;">
+
                         <h3 class="subtarea-titulo"><?= esc($sub['titulo']) ?></h3>
                         <p style="color: #666; font-size: 0.9rem; margin-bottom: 0.75rem;"><?= esc($sub['descripcion']) ?></p>
                         
@@ -542,36 +583,6 @@
         <?php endif; ?>
     </div>
 
-    <!-- Modal Invitar por Correo -->
-    <div id="modalInvitarCorreo" class="modal-custom">
-        <div class="modal-content-custom">
-            <div class="modal-header-custom">
-                <h3 class="modal-title-custom">
-                    <i class="bi bi-envelope-plus"></i> Invitar colaborador
-                </h3>
-            </div>
-            
-            <form action="<?= base_url('tarea/enviarCorreo') ?>" method="post">
-                <?= csrf_field() ?>
-                
-                <div class="mb-3">
-                    <label for="correo" class="form-label">Correo del colaborador:</label>
-                    <input type="email" class="form-control" id="correo" name="correo" placeholder="ejemplo@gmail.com" required>
-                </div>
-                
-                <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
-                
-                <div class="d-flex justify-content-end gap-2 mt-3">
-                    <button type="button" class="btn-modal btn-modal-secondary" onclick="cerrarModalInvitar()">
-                        Cancelar
-                    </button>
-                    <button type="submit" class="btn-modal btn-modal-primary">
-                        Enviar invitación
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
 
     <script>
         // Función para obtener colores
@@ -588,14 +599,7 @@
             return colores[colorNombre.toLowerCase()] || ['#CCCCCC', '#F9F9F9'];
         }
 
-        // Funciones para manejar modales
-        function mostrarModalInvitar() {
-            document.getElementById('modalInvitarCorreo').style.display = 'flex';
-        }
-
-        function cerrarModalInvitar() {
-            document.getElementById('modalInvitarCorreo').style.display = 'none';
-        }
+    
 
         // Modo oscuro
         function toggleModoOscuro() {

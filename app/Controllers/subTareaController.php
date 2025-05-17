@@ -168,10 +168,9 @@ public function editar($id)
         $modelo->cambiarEstado($id, $estado);
         $modeloTarea->actualizarEstadoPorSubtareas($tarea_id);
 
-        $tareaCtrl = new \App\Controllers\ColaboracionController();
-    session()->setFlashdata('tarea_id', $tarea_id);
+        
 
-    return $tareaCtrl->tareaColaborar();
+    return redirect()->to('/tarea')->with('mensaje', 'Cambio de estado actualizado con éxito.');
     }
 
 }
