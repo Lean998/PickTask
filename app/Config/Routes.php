@@ -6,56 +6,55 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-///Vista Principal
-$routes->get('/', 'Home::inicio');
-///Vista Tareas
+
+$routes->get('/', 'inicio::inicio');
 $routes->post('/tarea', 'tareaController::mostrarDetalles');
-///Vista Colaboracion
 $routes->get('/colaboradores', 'colaboracionController::mostrarDetalles');
-// Rutas del login
-$routes->get('/login', 'UsuarioController::iniciarSession');
-$routes->post('/login/autenticar', 'Login::autenticar');
-$routes->get('/logout', 'Login::logout');
-
-
-
-
-
- //
-$routes->get('/veterinario', 'veterinarioController::listado');
-$routes->post('/veterinario/editar', 'veterinarioController::editar');
-$routes->post('/veterinario/actualizar', 'veterinarioController::actualizar');
-$routes->get('veterinario/alta', 'veterinarioController::alta');
-$routes->post('veterinario/guardar', 'veterinarioController::guardar');
-$routes->post('veterinario/baja', 'veterinarioController::baja');
-$routes->post('veterinario/activar', 'veterinarioController::activar');
-$routes->get('veterinario/listado', 'veterinarioController::listado');
-
-
-
-//Amo
-$routes->get('/amo', 'amoController::amo');
-$routes->post('/amo/editar', 'amoController::editar');
-$routes->post('/amo/actualizar', 'amoController::actualizar');
-
-//Historial Amo
-$routes->get('/historialAmo', 'amo_MascotaController::historialAmo');
-//Historial Mascota
-$routes->get('/historialMascota', 'MascotaController::historial');
-
-
-
-
-//Amo - Mascota
-$routes->post('/mascota/vincular', 'amo_MascotaController::vincular');
-$routes->post('/mascota/guardar', 'amo_MascotaController::guardar');
-$routes->get('mascota/alta', 'amo_MascotaController::crear');
-
-//Mascota
-$routes->get('/mascota/editar/(:num)', 'MascotaController::editar/$1'); // Ver detalles de la mascota para modificar
-$routes->post('/mascota/actualizar/(:num)', 'MascotaController::actualizar/$1'); // Guardar cambios
-$routes->post('mascota/baja', 'MascotaController::eliminarSeleccionada');
-$routes->post('mascota/eliminarSeleccionada', 'MascotaController::eliminarSeleccionada');
-
-
+$routes->post('tarea/colaborar', 'colaboracionController::tareaColaborar');
+$routes->get('tarea/colaborar', 'colaboracionController::tareaColaborar');
+$routes->get('/login', 'UsuarioController::login');
+$routes->get('/logout', 'usuarioController::logout');
+$routes->get('/registro', 'UsuarioController::registrarse');
+$routes->get('tareas/crear', 'tareaController::crear');
+$routes->post('tareas/guardar', 'tareaController::guardar');
+$routes->get('tareas/guardar', 'tareaController::guardar');
+$routes->post('usuario/guardarRegistro', 'usuarioController::guardarRegistro');
+$routes->get('usuario/guardarRegistro', 'usuarioController::guardarRegistro');
+$routes->post('usuario/autenticar', 'usuarioController::autenticar');
+$routes->get('usuario/autenticar', 'usuarioController::autenticar');
+$routes->post('subtarea/quitarResponsable', 'subTareaController::quitarResponsable');
+$routes->get('subtarea/quitarResponsable', 'subTareaController::quitarResponsable');
+$routes->post('subtarea/agregarResponsable', 'subTareaController::agregarResponsable');
+$routes->get('subtarea/agregarResponsable', 'subTareaController::agregarResponsable');
+$routes->post('/subtareas/cambiarEstado', 'subTareaController::cambiarEstado');
+$routes->get('/subtareas/cambiarEstado', 'subTareaController::cambiarEstado');
+$routes->get('/redirigirATarea', 'TareaController::redirigirATarea');
+$routes->post('tarea/enviarCorreo', 'InvitacionController::enviarCorreo');
+$routes->get('tarea/enviarCorreo', 'InvitacionController::enviarCorreo');
+$routes->get('/Colaborar', 'colaboracionController::ColaborarEnTarea');
+$routes->post('invitacion/verificar', 'InvitacionController::IniciarColaboracion');
+$routes->get('invitacion/verificar', 'InvitacionController::IniciarColaboracion');
+$routes->get('tareas/historial', 'tareaController::historial');
+$routes->get('tarea/archivar/(:num)', 'tareaController::archivar/$1');
+$routes->post('tarea/editar', 'TareaController::editar');
+$routes->get('tarea/editar', 'TareaController::editar');
+$routes->post('tarea/actualizar', 'TareaController::actualizar');
+$routes->get('tarea/actualizar', 'TareaController::actualizar');
+$routes->post('tarea/baja', 'TareaController::baja');
+$routes->get('tarea/baja', 'TareaController::baja');
+$routes->post('/tarea', 'tareaController::mostrarDetalles');
+$routes->get('/tarea', 'tareaController::mostrarDetalles');
+$routes->get('/colaboradores', 'colaboracionController::mostrarDetalles');
+$routes->get('usuario/editar', 'UsuarioController::editarView');
+$routes->post('usuario/editarguardar', 'UsuarioController::editarGuardar');
+$routes->post('usuario/editarguardar', 'UsuarioController::editarGuardar');
+$routes->post('subtarea/guardar', 'subTareaController::guardar'); 
+$routes->get('subtarea/guardar', 'subTareaController::guardar'); 
+$routes->post('subtarea/crear', 'subTareaController::crear');   
+$routes->get('subtarea/crear', 'subTareaController::crear');    
+$routes->post('subtarea/eliminar/(:num)', 'subTareaController::eliminar/$1');
+$routes->get('subtarea/eliminar/(:num)', 'subTareaController::eliminar/$1');
+$routes->post('subtarea/editar/(:num)', 'subTareaController::editar/$1');
+$routes->get('subtarea/editar/(:num)', 'subTareaController::editar/$1');
+$routes->get('tarea/mostrarDetalles', 'tareaController::mostrarDetalles');
 

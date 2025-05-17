@@ -43,6 +43,8 @@ class Autoload extends AutoloadConfig
         APP_NAMESPACE => APPPATH,
     ];
 
+    
+
     /**
      * -------------------------------------------------------------------
      * Class Map

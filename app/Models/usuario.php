@@ -12,11 +12,13 @@ class Usuario extends Model
     protected $returnType = 'array';
     protected $useTimestamps = false;
 
-    public function verificarCredenciales($usuario, $clave)
+    public function verificarCredenciales($correo, $clave)
     {
         return $this->where([
-            'nombre_usuario' => $usuario,
-            'contrasena'     => $clave
+            'correo'     => $correo,
+            'contrasenia' => $clave
         ])->first();
     }
+
+    
 }

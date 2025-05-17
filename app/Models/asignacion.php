@@ -11,5 +11,5 @@ class Asignacion extends Model
     protected $allowedFields = ['subtarea_id', 'usuario_id'];
     protected $returnType = 'array';
     protected $useTimestamps = false;
-    protected $useAutoIncrement = false;
+    protected $useAutoIncrement = false;  
 }

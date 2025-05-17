@@ -3,192 +3,601 @@
 <head>
     <meta charset="UTF-8">
     <title>Panel de Tareas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <style>
         body {
-            background-color: #f4f4f4;
+            background: linear-gradient(to top, #FFA600,#f0f0f0);
             font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-size: 0.9rem;
         }
+
         .navbar {
-            background-color: white;
-            border-bottom: 2px solid #FFA600;
-            padding: 1rem 0;
+            background: linear-gradient(to right, #fef5e6,rgb(252, 237, 197));
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            border-bottom: 3px solid #FFA600;
+            padding: 0.5rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 50px;
         }
+
+        .navbar-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .navbar-nav {
+            align-items: center;
+            display: flex;
+            gap: 0.5rem;
+        }
+
         .navbar-nav .nav-link {
             color: #333;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-radius: 10px;
-            transition: background-color 0.3s, color 0.3s;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease-in-out;
+            position: relative;
         }
-        .navbar-nav .nav-link:hover {
+
+        .navbar-nav .nav-link::after {
+            content: "";
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
             background-color: #FFA600;
-            color: white !important;
+            transition: width 0.2s ease;
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 50%;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #FFA600;
+        }
+
+        .seccion-titulo {
+            text-align: center;
+            margin: 1.5rem 0 0.5rem;
+            color:rgb(37, 33, 33);
+            font-size: 1.5rem;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .seccion-titulo::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: #FFA600;
+            margin: 0.3rem auto;
+            border-radius: 2px;
         }
 
         .tareas-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
         }
 
         .tarea-card {
-            width: 300px;
             background-color: white;
-            border-left: 10px solid #FFA600;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 1rem 1.5rem;
-            transition: transform 0.2s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            opacity: 0;
+            transform: translateY(15px);
+            border-top: 4px solid #FFA600;
+        }
+
+        .tarea-card.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .tarea-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .tarea-titulo {
             font-weight: bold;
-            font-size: 1.2rem;
-            margin-bottom: 5px;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
             color: #333;
         }
 
         .tarea-descripcion {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             color: #555;
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
         }
 
         .tarea-meta {
-            font-size: 0.85rem;
-            color: #777;
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
         }
 
-        .tarea-card[data-color] {
-            border-left-color: inherit;
-            background-color: inherit;
+        .tarea-meta strong {
+            color: #333;
+            min-width: 70px;
+            display: inline-block;
+            font-size: 0.8rem;
         }
 
-        .tarea-card .badge {
-            background-color: #00C1FF;
+        .badge {
+            background-color: #FFA600;
             color: white;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 50px;
+            font-weight: 600;
         }
 
-        .titulo-principal {
-            text-align: center;
-            margin-top: 2rem;
-            color: #FFA600;
-
-            
+        .acciones-tarea {
+            display: flex;
+            gap: 0.3rem;
+            margin-top: 1rem;
         }
 
         .accion-btn {
-    background-color: #FFA600;
-    border: none;
-    color: white;
-    font-size: 1.2rem;
-    padding: 0.4rem 0.6rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
+            flex: 1;
+            background-color: #FFA600;
+            border: none;
+            color: white;
+            font-size: 0.8rem;
+            padding: 0.4rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            font-weight: 600;
+        }
 
-.accion-btn:hover {
-    background-color: #FF8C00;
-}
+        .accion-btn:hover {
+            background-color: #FF8C00;
+            transform: translateY(-1px);
+        }
 
+        .accion-btn.editar {
+            background-color: #FFC107;
+        }
 
+        .accion-btn.eliminar {
+            background-color: #DC3545;
+        }
+
+        .accion-btn.archivar {
+            background-color: #28A745;
+            width: 100%;
+            margin-top: 0.3rem;
+            font-size: 0.8rem;
+            padding: 0.3rem;
+        }
+
+        .btn-volver {
+            background: linear-gradient(135deg, #ff7a18, #ffae00);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            border: none;
+            box-shadow: 0 2px 6px rgba(255, 140, 0, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .btn-volver:hover {
+            transform: translateY(-50%) scale(1.03);
+            box-shadow: 0 3px 8px rgba(255, 140, 0, 0.3);
+        }
+
+        .cuenta-container {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .cuenta-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            padding: 0;
+            white-space: nowrap;
+            background-color: #FFA600;
+            color: white;
+            font-weight: bold;
+            overflow: hidden;
+            position: relative;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .cuenta-btn .texto-cuenta {
+            display: none;
+            margin-left: 6px;
+            font-size: 0.8rem;
+        }
+
+        .cuenta-btn:hover {
+            width: auto;
+            padding: 0 10px;
+            border-radius: 20px;
+        }
+
+        .cuenta-btn:hover .texto-cuenta {
+            display: inline;
+        }
+
+        .dropdown-menu {
+            min-width: 160px;
+            border-radius: 8px;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            font-size: 0.85rem;
+        }
+
+        .dropdown-item {
+            padding: 0.4rem 1rem;
+            transition: all 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: #FFA600;
+            color: white;
+        }
+
+        /* Estilos para prioridades */
+        .borde-prioridad-baja {
+            border-top-color: #22c55e; /* verde */
+        }
+
+        .borde-prioridad-normal {
+            border-top-color: #FFD700; /* amarillo */
+        }
+
+        .borde-prioridad-alta {
+            border-top-color: #ef4444; /* rojo */
+        }
+
+        /* Estilos para modo oscuro */
+        body.dark-mode {
+            background: linear-gradient(to top, #1a1a1a, #333);
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .navbar {
+            background: linear-gradient(to right, #2c2c2c, #3d3d3d);
+            border-bottom-color: #FF8C00;
+        }
+
+        body.dark-mode .tarea-card {
+            background-color: #2c2c2c;
+            color: #f0f0f0;
+            border-top-color: #FF8C00;
+        }
+
+        body.dark-mode .tarea-titulo,
+        body.dark-mode .tarea-meta strong {
+            color: #f0f0f0;
+        }
+
+        body.dark-mode .tarea-descripcion,
+        body.dark-mode .tarea-meta {
+            color: #ccc;
+        }
+
+        /* Estilos para la alerta de recordatorio */
+        .alert-recordatorio {
+            position: fixed;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 280px;
+            z-index: 1050;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid #FFA600;
+            padding: 1rem;
+            background: linear-gradient(to right, #fff8e1, #ffffff);
+            animation: pulse 2s infinite;
+        }
+
+        .alert-recordatorio .alert-heading {
+            font-size: 1.2rem;
+            color: #FFA600;
+            margin-bottom: 0.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .alert-recordatorio ul {
+            padding-left: 1rem;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .alert-recordatorio li {
+            margin-bottom: 0.3rem;
+        }
+
+        .alert-recordatorio .btn-close {
+            position: absolute;
+            right: 12px;
+            top: 12px;
+            font-size: 0.9rem;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 166, 0, 0.3); }
+            70% { box-shadow: 0 0 0 8px rgba(255, 166, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 166, 0, 0); }
+        }
+
+        .mensaje-vacio {
+            text-align: center;
+            padding: 1.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .btn-crear-tarea {
+            background: linear-gradient(135deg, #FFA600, #FF8C00);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .btn-crear-tarea:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(255, 140, 0, 0.3);
+        }
     </style>
 </head>
 <body>
+    <?php if (!empty($RecordatorioAlerta)): ?>
+        <div class="alert alert-warning alert-recordatorio alert-dismissible fade show" role="alert">
+            <h5 class="alert-heading"><i class="bi bi-bell-fill"></i> Recordatorios</h5>
+            <ul>
+                <?php foreach ($RecordatorioAlerta as $mensaje): ?>
+                    <li><?= $mensaje ?></li>
+                <?php endforeach; ?>
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+    <?php endif; ?>
 
     <?php
-function obtenerColoresTarea($colorNombre)
-{
-    switch (strtolower($colorNombre)) {
-        case 'rojo':
-            return ['#FF6B6B', '#FFECEC'];
-        case 'azul':
-            return ['#1E90FF', '#E6F0FF'];
-        case 'verde':
-            return ['#28A745', '#E9F7EF'];
-        case 'naranja':
-            return ['#FFA600', '#FFF3E0'];
-        case 'celeste':
-            return ['#00C1FF', '#E0F7FF'];
-        case 'gris':
-            return ['#6C757D', '#F0F0F0'];
-        case 'violeta':
-            return ['#8A2BE2', '#F3E8FF'];
-        default:
-            return ['#CCCCCC', '#F9F9F9'];
+    function obtenerColoresTarea($colorNombre) {
+        switch (strtolower($colorNombre)) {
+            case 'rojo':     return '#B00020';
+            case 'azul':     return '#0D47A1';
+            case 'verde':    return '#1B5E20';
+            case 'naranja':  return '#E65100';
+            case 'celeste':  return '#0288D1';
+            case 'gris':     return '#424242';
+            case 'violeta':  return '#6A1B9A';
+            default:         return '#616161';
+        }
     }
-}
-?>
+    ?>
 
-    <nav class="navbar navbar-expand-lg">
-        <div class="container justify-content-center">
-            <ul class="navbar-nav text-center">
-                <li class="nav-item mx-2">
-                    <a class="nav-link" href="#">Tablero</a>
-                </li>
-                <li class="nav-item mx-2">
-                    <a class="nav-link" href="#">Crear Tarea</a>
-                </li>
-                <li class="nav-item mx-2">
-                    <a class="nav-link" href="#">Historial</a>
-                </li>
-            </ul>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid position-relative">
+            <a href="javascript:history.back()" class="btn-volver">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
+            
+            <div class="navbar-container">
+                <ul class="navbar-nav flex-row">
+                    <li class="nav-item"><a class="nav-link active" href="<?= base_url('tareas') ?>">Tablero</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= base_url('tareas/crear') ?>">Crear</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= base_url('tareas/historial') ?>">Historial</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= base_url('/Colaborar') ?>">Colaborar</a></li>
+                </ul>
+            </div>
+
+            <!-- Cuenta -->
+            <div class="cuenta-container">
+                <div class="dropdown">
+                    <button class="btn cuenta-btn dropdown-toggle d-flex align-items-center justify-content-center gap-1" type="button" id="dropdownCuenta" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                        <span class="texto-cuenta">Cuenta</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownCuenta">
+                        <li><a class="dropdown-item" href="<?= site_url('usuario/editar') ?>"><i class="bi bi-pencil-square me-2"></i>Editar perfil</a></li>
+                        <li><a class="dropdown-item" href="<?= site_url('logout') ?>"><i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </nav>
-    
-    <h2 class="titulo-principal">Mis Tareas</h2>
 
-    <div class="tareas-container">
-    <?php if (!empty($tareas)): ?>
-        <?php foreach ($tareas as $tarea): ?>
-            <?php [$borde, $fondo] = obtenerColoresTarea($tarea['color']); ?>
-            <form method="POST" action="<?= site_url('tarea') ?>" style="margin-bottom: 1rem;">
-                <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
-                <button type="submit" style="all: unset; cursor: pointer; display: block;">
-                    <div class="tarea-card" style="background-color: <?= $fondo ?>; border-left: 4px solid <?= $borde ?>; padding: 1rem; border-radius: 8px;">
-                        <div class="tarea-titulo"><?= esc($tarea['titulo']) ?></div>
-                        <div class="tarea-descripcion"><?= esc($tarea['descripcion']) ?></div>
-                        <hr>
-                        <div class="tarea-meta"><strong>Estado:</strong> <?= esc($tarea['estado']) ?></div>
-                        <div class="tarea-meta"><strong>Prioridad:</strong> <span class="badge"><?= esc($tarea['prioridad']) ?></span></div>
-                        <div class="tarea-meta"><strong>Vence:</strong> <?= esc($tarea['fecha_vencimiento']) ?></div>
-                        <?php if ($tarea['fecha_recordatorio']): ?>
-                            <div class="tarea-meta"><strong>Recordatorio:</strong> <?= esc($tarea['fecha_recordatorio']) ?></div>
-                        <?php endif; ?>
+    <div class="container">
+        <h2 class="seccion-titulo">Mis Tareas</h2>
+        
+        <div class="tareas-container" id="tareasContainer">
+            <?php if (!empty($tareas_propias)): ?>
+                <?php foreach ($tareas_propias as $tarea): ?>
+                    <?php
+                    $prioridad = strtolower($tarea['prioridad']);
+                    $clasePrioridad = match ($prioridad) {
+                        'baja' => 'borde-prioridad-baja',
+                        'normal' => 'borde-prioridad-normal',
+                        'alta' => 'borde-prioridad-alta',
+                        default => '',
+                    };
+                    ?>
                     
+                    <div class="tarea-card <?= $clasePrioridad ?>"
+                         style="border-top-color: <?= esc(obtenerColoresTarea($tarea['color'])) ?>">
+                        <form method="POST" action="<?= site_url('tarea') ?>" style="margin: 0;">
+                            <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
+                            <button type="submit" style="all: unset; cursor: pointer; display: block; width: 100%;">
+                                <div class="tarea-titulo"><?= esc($tarea['titulo']) ?></div>
+                                <div class="tarea-descripcion"><?= esc($tarea['descripcion']) ?></div>
+                                <div class="tarea-meta">
+                                    <strong>Estado:</strong> 
+                                    <span class="badge"><?= esc($tarea['estado']) ?></span>
+                                </div>
+                                <div class="tarea-meta">
+                                    <strong>Prioridad:</strong> 
+                                    <span class="badge"><?= esc($tarea['prioridad']) ?></span>
+                                </div>
+                                <div class="tarea-meta">
+                                    <strong>Vence:</strong> <?= esc($tarea['fecha_vencimiento']) ?>
+                                </div>
+                                <?php if (!empty($tarea['fecha_recordatorio'])): ?>
+                                    <div class="tarea-meta">
+                                        <strong>Recordatorio:</strong> <?= esc($tarea['fecha_recordatorio']) ?>
+                                    </div>
+                                <?php endif; ?>
+                            </button>
+                        </form>
+
+                        <div class="acciones-tarea">
+                            <form action="<?= site_url('tarea/editar') ?>" method="post">
+                                <input type="hidden" name="id_tarea" value="<?= esc($tarea['id']) ?>">
+                                <button type="submit" class="accion-btn editar">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </button>
+                            </form>
+                            <form action="<?= site_url('tarea/baja') ?>" method="post">
+                                <input type="hidden" name="id_tarea" value="<?= esc($tarea['id']) ?>">
+                                <button type="submit" class="accion-btn eliminar">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </button>
+                            </form>
+                        </div>
+
+                        <?php if ($tarea['estado'] === 'completada' && !$tarea['archivada']): ?>
+                            <a href="<?= site_url('tarea/archivar/' . $tarea['id']) ?>" class="accion-btn archivar">
+                                <i class="bi bi-archive"></i> Archivar
+                            </a>
+                        <?php endif; ?>
                     </div>
-                </button>
-            <div style="display: flex; margin-top: auto;">
-    <form action="<?= site_url('tarea/editar') ?>" method="post" style="flex: 1;">
-        <input type="hidden" name="id_tarea" value="<?= esc($tarea['id']) ?>">
-        <button type="submit" class="accion-btn"
-            style="width: 100%; padding: 0.1rem 0; background-color:rgb(228, 231, 11); color: #000; border: none; font-weight: bold; border-radius: 0 0 0 8px; transition: background-color 0.3s; transform: translateY(-5px);">
-            🖊️ Editar
-        </button>
-    </form>
-    <form action="<?= site_url('tarea/baja') ?>" method="post" style="flex: 1;">
-        <input type="hidden" name="id_tarea" value="<?= esc($tarea['id']) ?>">
-        <button type="submit" class="accion-btn"
-            style="width: 100%; padding: 0.1rem 0; background-color:rgb(160, 156, 156); color: #000; border: none; font-weight: bold; border-radius: 0 0 8px 0; transition: background-color 0.3s; transform: translateY(-5px);">
-            🗑️ Borrar
-        </button>
-    </form>
-</div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="mensaje-vacio">
+                    <p>No tienes tareas propias activas.</p>
+                    <a href="<?= base_url('tareas/crear') ?>" class="btn btn-crear-tarea">
+                        <i class="bi bi-plus-circle"></i> Crear tarea
+                    </a>
+                </div>
+            <?php endif; ?>
+        </div>
 
-        <?php endforeach; ?>
-    <?php endif; ?>
-</div>
+        <h2 class="seccion-titulo">Mis Colaboraciones</h2>
+        
+        <div class="tareas-container">
+            <?php if (!empty($tareas_colaborativas)): ?>
+                <?php foreach ($tareas_colaborativas as $tarea): ?>
+                    <div class="tarea-card"
+                         style="border-top-color: <?= esc(obtenerColoresTarea($tarea['color'])) ?>">
+                        <form method="POST" action="<?= site_url('tarea/colaborar') ?>" style="margin: 0;">
+                            <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
+                            <button type="submit" style="all: unset; cursor: pointer; display: block; width: 100%;">
+                                <div class="tarea-titulo"><?= esc($tarea['titulo']) ?></div>
+                                <div class="tarea-descripcion"><?= esc($tarea['descripcion']) ?></div>
+                                <div class="tarea-meta">
+                                    <strong>Estado:</strong> 
+                                    <span class="badge"><?= esc($tarea['estado']) ?></span>
+                                </div>
+                                <div class="tarea-meta">
+                                    <strong>Prioridad:</strong> 
+                                    <span class="badge"><?= esc($tarea['prioridad']) ?></span>
+                                </div>
+                                <div class="tarea-meta">
+                                    <strong>Vence:</strong> <?= esc($tarea['fecha_vencimiento']) ?>
+                                </div>
+                                <?php if (!empty($tarea['fecha_recordatorio'])): ?>
+                                    <div class="tarea-meta">
+                                        <strong>Recordatorio:</strong> <?= esc($tarea['fecha_recordatorio']) ?>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="tarea-meta">
+                                    <strong>Propietario:</strong> <?= esc($tarea['usuario_id']) ?>
+                                </div>
+                            </button>
+                        </form>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="mensaje-vacio">
+                    <p>No hay tareas colaborativas disponibles.</p>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
 
-    <h2 class="titulo-principal">Mis Colaboraciones</h2>
+    <script>
+        // Animación de aparición de las tarjetas
+        window.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll('.tarea-card').forEach((card, i) => {
+                setTimeout(() => card.classList.add('show'), i * 80);
+            });
+        });
 
+        // Modo oscuro
+        function toggleModoOscuro() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('modoOscuro', document.body.classList.contains('dark-mode'));
+        }
 
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('modoOscuro') === 'true') {
+                document.body.classList.add('dark-mode');
+            }
+        });
+    </script>
 </body>
 </html>
