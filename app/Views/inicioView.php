@@ -647,19 +647,13 @@
                     </button>
                 </form>
 
-                <div class="acciones-tarea">
-                    <form action="<?= site_url('tarea/colaborar') ?>" method="post">
-                        <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
+                <form action="<?= site_url('tarea/editar') ?>" method="post">
+                        <input type="hidden" name="id_tarea" value="<?= esc($tarea['id']) ?>">
                         <button type="submit" class="accion-btn editar">
-                            <i class="bi bi-eye"></i> Ver
+                            <i class="bi bi-pencil"></i> Editar
                         </button>
                     </form>
-                    <form action="<?= site_url('tarea/dejar_colaboracion') ?>" method="post">
-                        <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
-                        <button type="submit" class="accion-btn eliminar">
-                            <i class="bi bi-person-dash"></i> Dejar
-                        </button>
-                    </form>
+                    
                 </div>
             </div>
         <?php endforeach; ?>

@@ -203,14 +203,52 @@
             width: 24px;
             height: 24px;
         }
+        .btn-volver {
+            background: linear-gradient(135deg, #ff7a18, #ffae00);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            border: none;
+            box-shadow: 0 2px 6px rgba(255, 140, 0, 0.2);
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .btn-volver:hover {
+            transform: translateY(-50%) scale(1.03);
+            box-shadow: 0 3px 8px rgba(255, 140, 0, 0.3);
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        
         <div class="header-section">
-            <h1><i class="fas fa-tasks me-2"></i> Detalles de la Tarea</h1>
+            
+        
+        
+        <h1><i class="fas fa-tasks me-2"></i> Detalles de la Tarea</h1>
+
         </div>
+        <a href="http://localhost/PickTask/public/" class="btn-volver">
+                <i class="bi bi-arrow-left"></i> Volver
+        </a>
+        
+        
+
         <?php
+
+        
+
         function obtenerColoresTarea($colorNombre)
         {
             switch (strtolower($colorNombre)) {
@@ -243,7 +281,7 @@
                 default => '',
             };
             
-            // Color del icono según prioridad
+
             switch ($prioridad) {
                 case 'alta':
                     $colorIcono = '#E53935'; // rojo fuerte
@@ -302,7 +340,7 @@
                     </div>
                     
                     <div class="col-md-6">
-    <div class="info-item" style="background-color:rgb(245, 177, 99); border-radius: 15px;">
+    <div class="info-item" >
         <i class="fas fa-tag"></i>
         <div>
             <small class="text-muted">Estado</small>
@@ -310,30 +348,7 @@
                 <span class="badge bg-secondary"><?= esc($tarea['estado']) ?></span>
             </div>
         </div>
-        <div style="padding-left: 20px;">
-            <form action="<?= site_url('tarea/cambiarEstado') ?>" method="post" class="d-flex gap-3" onChange="this.submit();">
-                <?= csrf_field() ?>
-                <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="estado" id="estado_<?= $tarea['id'] ?>_definida" value="definida"
-                        <?= $tarea['estado'] === 'definida' ? 'checked' : '' ?>>
-                    <label class="form-check-label" for="estado_<?= $tarea['id'] ?>_definida">Definida</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="estado" id="estado_<?= $tarea['id'] ?>_en_proceso" value="en_proceso"
-                        <?= $tarea['estado'] === 'en_proceso' ? 'checked' : '' ?>>
-                    <label class="form-check-label" for="estado_<?= $tarea['id'] ?>_en_proceso">En Proceso</label>
-                </div>
-
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="estado" id="estado_<?= $tarea['id'] ?>_completada" value="completada"
-                        <?= $tarea['estado'] === 'completada' ? 'checked' : '' ?>>
-                    <label class="form-check-label" for="estado_<?= $tarea['id'] ?>_completada">Completada</label>
-                </div>
-            </form>
-        </div>
+        
     </div>
 </div>
 
@@ -509,73 +524,75 @@
                     
                     <!-- Modal de Edición -->
                     <div class="modal fade" id="editarSubtareaModal<?= $sub['id'] ?>" tabindex="-1" aria-labelledby="editarSubtareaLabel<?= $sub['id'] ?>" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <form action="<?= base_url('subtarea/editar/' . $sub['id']) ?>" method="post">
-                                <?= csrf_field() ?>
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="editarSubtareaLabel<?= $sub['id'] ?>">Editar Subtarea</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="mb-3">
-                                            <label class="form-label">Título</label>
-                                            <input type="text" class="form-control" name="titulo" value="<?= esc($sub['titulo']) ?>" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Descripción</label>
-                                            <textarea class="form-control" name="descripcion" required><?= esc($sub['descripcion']) ?></textarea>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label class="form-label">Estado</label>
-                                                <select name="estado" class="form-select" required>
-                                                    <option value="creada" <?= $sub['estado'] === 'creada' ? 'selected' : '' ?>>Creada</option>
-                                                    <option value="en_proceso" <?= $sub['estado'] === 'en_proceso' ? 'selected' : '' ?>>En proceso</option>
-                                                    <option value="completada" <?= $sub['estado'] === 'completada' ? 'selected' : '' ?>>Completada</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label class="form-label">Prioridad</label>
-                                                <select name="prioridad" class="form-select" required>
-                                                    <option value="baja" <?= $sub['prioridad'] === 'baja' ? 'selected' : '' ?>>Baja</option>
-                                                    <option value="media" <?= $sub['prioridad'] === 'media' ? 'selected' : '' ?>>Media</option>
-                                                    <option value="alta" <?= $sub['prioridad'] === 'alta' ? 'selected' : '' ?>>Alta</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6 mb-3">
-                                                <label class="form-label">Fecha de vencimiento</label>
-                                                <input type="date" class="form-control" name="fecha_vencimiento" value="<?= esc($sub['fecha_vencimiento']) ?>" required>
-                                            </div>
-                                            <div class="col-md-6 mb-3">
-                                                <label class="form-label">Fecha de recordatorio</label>
-                                                <input type="date" class="form-control" name="fecha_recordatorio" value="<?= esc($sub['fecha_recordatorio']) ?>">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Color</label>
-                                            <select name="color" class="form-select">
-                                                <?php $colores = ['rojo', 'azul', 'verde', 'naranja', 'celeste', 'gris', 'violeta']; ?>
-                                                <?php foreach ($colores as $color): ?>
-                                                    <option value="<?= $color ?>" <?= $sub['color'] === $color ? 'selected' : '' ?>>
-                                                        <span class="color-option" style="background-color: <?= obtenerColoresTarea($color)[0] ?>"></span>
-                                                        <?= ucfirst($color) ?>
-                                                    </option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                                    </div>
-                                </div>
-                            </form>
+    <div class="modal-dialog">
+        <form action="<?= base_url('subtarea/editar/' . $sub['id']) ?>" method="post">
+            <?= csrf_field() ?>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarSubtareaLabel<?= $sub['id'] ?>">Editar Subtarea</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Título</label>
+                        <input type="text" class="form-control" name="titulo" value="<?= esc($sub['titulo']) ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-control" name="descripcion" required><?= esc($sub['descripcion']) ?></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Estado</label>
+                            <select name="estado" class="form-select" required>
+                                <option value="creada" <?= $sub['estado'] === 'creada' ? 'selected' : '' ?>>Creada</option>
+                                <option value="en_proceso" <?= $sub['estado'] === 'en_proceso' ? 'selected' : '' ?>>En proceso</option>
+                                <option value="completada" <?= $sub['estado'] === 'completada' ? 'selected' : '' ?>>Completada</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Prioridad</label>
+                            <select name="prioridad" class="form-select" required>
+                                <option value="baja" <?= $sub['prioridad'] === 'baja' ? 'selected' : '' ?>>Baja</option>
+                                <option value="normal" <?= $sub['prioridad'] === 'normal' ? 'selected' : '' ?>>Normal</option>
+                                <option value="alta" <?= $sub['prioridad'] === 'alta' ? 'selected' : '' ?>>Alta</option>
+                            </select>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Fecha de vencimiento</label>
+                            <input type="date" class="form-control" name="fecha_vencimiento" 
+                                   value="<?= esc($tarea['fecha_vencimiento']) ?>">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Fecha de recordatorio</label>
+                            <input type="date" class="form-control" name="fecha_recordatorio" 
+                                   value="<?= esc($tarea['fecha_recordatorio']) ?>">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Color</label>
+                        <select name="color" class="form-select">
+                            <?php $colores = ['rojo', 'azul', 'verde', 'naranja', 'celeste', 'gris', 'violeta']; ?>
+                            <?php foreach ($colores as $color): ?>
+                                <option value="<?= $color ?>" <?= $sub['color'] === $color ? 'selected' : '' ?>>
+                                    <span class="color-option" style="background-color: <?= obtenerColoresTarea($color)[1] ?>"></span>
+                                    <?= ucfirst($color) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
@@ -770,4 +787,5 @@
         });
     </script>
 </body>
+
 </html>

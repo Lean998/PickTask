@@ -29,7 +29,7 @@ $routes->get('subtarea/agregarResponsable', 'subTareaController::agregarResponsa
 $routes->post('/subtareas/cambiarEstado', 'subTareaController::cambiarEstado');
 $routes->get('/subtareas/cambiarEstado', 'subTareaController::cambiarEstado');
 $routes->post('/tarea/cambiarEstado', 'tareaController::cambiarEstado');
-$routes->get('tarea/cambiarEstado', 'tareaController::cambiarEstado');
+$routes->get('tarea/mostrarDetalles/(:num)', 'TareaController::mostrarDetalles/$1');
 
 
 $routes->get('/redirigirATarea', 'TareaController::redirigirATarea');

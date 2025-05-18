@@ -11,19 +11,16 @@ use App\Models\Colaboracion;
 class TareaController extends BaseController{
     
     
-    public function mostrarDetalles(){
+    public function mostrarDetalles($idTarea = null){
+    if ($idTarea === null) {
+        $idTarea = $this->request->getPost('tarea_id');
+        session()->setFlashdata('tarea_id', $idTarea);
+    }
 
         $modeloTarea = new Tarea();
         $modeloSubTarea = new Subtarea();
         $modeloMiembroSubtarea = new MiembroSubtarea();
         $modeloColaboracion = new Colaboracion();
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $idTarea = $idTarea = session()->getFlashdata('tarea_id');
-        }else{
-            $idTarea = $this->request->getPost('tarea_id');
-            session()->setFlashdata('tarea_id', $idTarea);
-        }
-
   
         $modeloTarea->actualizarEstadoPorSubtareas($idTarea);
         $subTareas = $modeloSubTarea->obtenerSubTareas($idTarea);
@@ -70,6 +67,7 @@ $colaboradores = $modeloColaboracion
         return view('tareaView', $data);
     }
 
+
     public function crear()
     {
         return view('crearTareaView');
@@ -114,7 +112,7 @@ $colaboradores = $modeloColaboracion
         $modeloTarea->actualizarEstadoPorSubtareas($idTarea);
         
         if ($modeloTarea->insert($data)) {
-            return redirect()->to('/tarea')->with('mensaje', 'Tarea creada con éxito');
+            return redirect()->to('/')->with('mensaje', 'Tarea creada con éxito');
         } else {
             dd($modeloTarea->errors());
         }
@@ -126,8 +124,6 @@ $colaboradores = $modeloColaboracion
         $id = $this->request->getPost('id_tarea');
         $modeloTarea = new Tarea();
         $data['tarea'] = $modeloTarea->find($id);
-
-        $modeloTarea->actualizarEstadoPorSubtareas($id);
         return view('editarTareaView', $data);
     }
 
@@ -191,17 +187,14 @@ $colaboradores = $modeloColaboracion
 
     public function cambiarEstado()
     {
+        $idTarea = $this->request->getPost('tarea_id');
+     $nuevoEstado = $this->request->getPost('estado');
+    
+    $modeloTarea = new Tarea();
+    $modeloTarea->cambiarEstado($idTarea, $nuevoEstado);
 
-        $estado = $this->request->getPost('estado');
-        $tarea_id = $this->request->getPost('tarea_id');
-        $modeloTarea = new Tarea();
-        $modeloTarea->cambiarEstado($tarea_id,$estado);
-        $modeloTarea->actualizarEstadoPorSubtareas($tarea_id);
-
-        $idTarea = $idTarea = session()->getFlashdata('tarea_id');
-        session()->setFlashdata('tarea_id', $idTarea);
-
-        return redirect()->to('/tarea')->with('mensaje', 'Cambio de estado actualizado con éxito.');
+ 
+    return redirect()->to('/tarea/mostrarDetalles/' . $idTarea);
     }
 
 }

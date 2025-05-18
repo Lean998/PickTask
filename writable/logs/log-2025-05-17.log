@@ -1096,3 +1096,316 @@ DEBUG - 2025-05-17 22:37:21 --> Session: Class initialized using 'CodeIgniter\Se
 DEBUG - 2025-05-17 22:37:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 DEBUG - 2025-05-17 22:37:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
 DEBUG - 2025-05-17 22:37:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 22:54:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-17 22:54:26 --> ErrorException: Undefined array key "prioridad"
+[Method: GET, Route: tarea]
+in APPPATH\Views\tareaView.php on line 237.
+ 1 APPPATH\Views\tareaView.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "prioridad"', 'C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php', 237)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('tareaView', [], true)
+ 5 APPPATH\Controllers\tareaController.php(70): view('tareaView', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\TareaController->mostrarDetalles()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TareaController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-17 22:54:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 22:54:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 22:54:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 22:54:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 22:56:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-17 22:56:00 --> ErrorException: Undefined array key "prioridad"
+[Method: GET, Route: tarea]
+in APPPATH\Views\tareaView.php on line 237.
+ 1 APPPATH\Views\tareaView.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "prioridad"', 'C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php', 237)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('tareaView', [], true)
+ 5 APPPATH\Controllers\tareaController.php(70): view('tareaView', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\TareaController->mostrarDetalles()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TareaController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-17 22:56:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 22:56:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 22:56:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 22:57:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-17 22:57:19 --> ErrorException: Undefined array key "prioridad"
+[Method: GET, Route: tarea]
+in APPPATH\Views\tareaView.php on line 237.
+ 1 APPPATH\Views\tareaView.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "prioridad"', 'C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php', 237)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('tareaView', [], true)
+ 5 APPPATH\Controllers\tareaController.php(70): view('tareaView', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\TareaController->mostrarDetalles()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TareaController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-17 22:57:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 22:57:22 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 22:57:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 22:57:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:03:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-17 23:03:06 --> ErrorException: Undefined array key "prioridad"
+[Method: GET, Route: tarea]
+in APPPATH\Views\tareaView.php on line 237.
+ 1 APPPATH\Views\tareaView.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "prioridad"', 'C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php', 237)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('tareaView', [], true)
+ 5 APPPATH\Controllers\tareaController.php(70): view('tareaView', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\TareaController->mostrarDetalles()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TareaController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-17 23:03:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:03:11 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:03:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:03:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:06:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:06:04 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:06:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-17 23:06:10 --> ErrorException: Undefined array key "prioridad"
+[Method: GET, Route: tarea/mostrarDetalles/9]
+in APPPATH\Views\tareaView.php on line 237.
+ 1 APPPATH\Views\tareaView.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "prioridad"', 'C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php', 237)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('tareaView', [], true)
+ 5 APPPATH\Controllers\tareaController.php(73): view('tareaView', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\TareaController->mostrarDetalles(null)
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TareaController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-17 23:06:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-17 23:06:14 --> ErrorException: Undefined array key "prioridad"
+[Method: GET, Route: tarea/mostrarDetalles/9]
+in APPPATH\Views\tareaView.php on line 237.
+ 1 APPPATH\Views\tareaView.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "prioridad"', 'C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php', 237)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('tareaView', [], true)
+ 5 APPPATH\Controllers\tareaController.php(73): view('tareaView', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\TareaController->mostrarDetalles(null)
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TareaController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-17 23:08:10 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-17 23:08:10 --> ErrorException: Undefined array key "prioridad"
+[Method: GET, Route: tarea]
+in APPPATH\Views\tareaView.php on line 237.
+ 1 APPPATH\Views\tareaView.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "prioridad"', 'C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php', 237)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('tareaView', [], true)
+ 5 APPPATH\Controllers\tareaController.php(70): view('tareaView', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\TareaController->mostrarDetalles()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TareaController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-17 23:08:16 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:08:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-17 23:08:21 --> ErrorException: Undefined array key "prioridad"
+[Method: GET, Route: tarea/mostrarDetalles/9]
+in APPPATH\Views\tareaView.php on line 237.
+ 1 APPPATH\Views\tareaView.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "prioridad"', 'C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php', 237)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('tareaView', [], true)
+ 5 APPPATH\Controllers\tareaController.php(70): view('tareaView', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\TareaController->mostrarDetalles(null)
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TareaController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-17 23:09:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:09:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:21:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:21:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-17 23:21:20 --> ErrorException: Undefined array key "prioridad"
+[Method: GET, Route: tarea]
+in APPPATH\Views\tareaView.php on line 237.
+ 1 APPPATH\Views\tareaView.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "prioridad"', 'C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php', 237)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('tareaView', [], true)
+ 5 APPPATH\Controllers\tareaController.php(67): view('tareaView', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\TareaController->mostrarDetalles()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TareaController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-17 23:22:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-17 23:22:39 --> ErrorException: Undefined array key "prioridad"
+[Method: GET, Route: tarea/mostrarDetalles/9]
+in APPPATH\Views\tareaView.php on line 237.
+ 1 APPPATH\Views\tareaView.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "prioridad"', 'C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php', 237)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('tareaView', [], true)
+ 5 APPPATH\Controllers\tareaController.php(70): view('tareaView', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\TareaController->mostrarDetalles('9')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TareaController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-17 23:22:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-17 23:22:41 --> ErrorException: Undefined array key "prioridad"
+[Method: GET, Route: tarea/mostrarDetalles/9]
+in APPPATH\Views\tareaView.php on line 237.
+ 1 APPPATH\Views\tareaView.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "prioridad"', 'C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php', 237)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('tareaView', [], true)
+ 5 APPPATH\Controllers\tareaController.php(70): view('tareaView', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\TareaController->mostrarDetalles('9')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TareaController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-17 23:22:47 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-17 23:22:47 --> ErrorException: Undefined array key "prioridad"
+[Method: GET, Route: tarea]
+in APPPATH\Views\tareaView.php on line 237.
+ 1 APPPATH\Views\tareaView.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "prioridad"', 'C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php', 237)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('tareaView', [], true)
+ 5 APPPATH\Controllers\tareaController.php(70): view('tareaView', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\TareaController->mostrarDetalles()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TareaController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-17 23:22:54 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-17 23:22:54 --> ErrorException: Undefined array key "prioridad"
+[Method: GET, Route: tarea]
+in APPPATH\Views\tareaView.php on line 237.
+ 1 APPPATH\Views\tareaView.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "prioridad"', 'C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php', 237)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('tareaView', [], true)
+ 5 APPPATH\Controllers\tareaController.php(70): view('tareaView', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\TareaController->mostrarDetalles()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TareaController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-17 23:22:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:22:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:03 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:07 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:08 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:34 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:35 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:41 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:43 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:44 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:23:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:24:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:28:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-17 23:28:40 --> ErrorException: Undefined array key "prioridad"
+[Method: GET, Route: tarea/mostrarDetalles]
+in APPPATH\Views\tareaView.php on line 237.
+ 1 APPPATH\Views\tareaView.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "prioridad"', 'C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php', 237)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('tareaView', [], true)
+ 5 APPPATH\Controllers\tareaController.php(67): view('tareaView', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\TareaController->mostrarDetalles()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TareaController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-17 23:29:12 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-17 23:29:12 --> ErrorException: Undefined array key "prioridad"
+[Method: GET, Route: tarea/mostrarDetalles]
+in APPPATH\Views\tareaView.php on line 237.
+ 1 APPPATH\Views\tareaView.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "prioridad"', 'C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php', 237)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('tareaView', [], true)
+ 5 APPPATH\Controllers\tareaController.php(67): view('tareaView', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\TareaController->mostrarDetalles()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TareaController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-17 23:29:19 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-17 23:29:19 --> ErrorException: Undefined array key "prioridad"
+[Method: GET, Route: tarea]
+in APPPATH\Views\tareaView.php on line 237.
+ 1 APPPATH\Views\tareaView.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "prioridad"', 'C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php', 237)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('tareaView', [], true)
+ 5 APPPATH\Controllers\tareaController.php(67): view('tareaView', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\TareaController->mostrarDetalles()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TareaController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-17 23:29:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:29:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:29:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+CRITICAL - 2025-05-17 23:29:27 --> ErrorException: Undefined array key "prioridad"
+[Method: GET, Route: tarea/mostrarDetalles]
+in APPPATH\Views\tareaView.php on line 237.
+ 1 APPPATH\Views\tareaView.php(237): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "prioridad"', 'C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php', 237)
+ 2 SYSTEMPATH\View\View.php(224): include('C:\\xampp\\htdocs\\PickTask\\app\\Views\\tareaView.php')
+ 3 SYSTEMPATH\View\View.php(227): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1173): CodeIgniter\View\View->render('tareaView', [], true)
+ 5 APPPATH\Controllers\tareaController.php(67): view('tareaView', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\TareaController->mostrarDetalles()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TareaController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(334): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+DEBUG - 2025-05-17 23:50:46 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:51:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:51:09 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:51:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:51:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:52:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:53:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+DEBUG - 2025-05-17 23:54:42 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

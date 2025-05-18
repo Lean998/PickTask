@@ -390,9 +390,6 @@
         }
 
 
-        
-
-        /* Responsive */
         @media (max-width: 992px) {
             .columnas-historial {
                 flex-direction: column;
@@ -402,6 +399,28 @@
                 margin-top: 2rem;
             }
         }
+
+        .accion-btn {
+            flex: 1;
+            background-color: #FFA600;
+            border: none;
+            color: white;
+            font-size: 0.8rem;
+            padding: 0.4rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            font-weight: 600;
+        }
+        .accion-btn.editar {
+            background-color: #FFC107;
+        }
+
+
     </style>
 </head>
 <body>
@@ -483,6 +502,14 @@
                                 <div class="tarea-meta">
                                     <strong>Recordatorio:</strong> <?= esc($tarea['fecha_recordatorio']) ?>
                                 </div>
+                            <div class="acciones-tarea">
+                    <form action="<?= site_url('tarea/editar') ?>" method="post">
+                        <input type="hidden" name="id_tarea" value="<?= esc($tarea['id']) ?>">
+                        <button type="submit" class="accion-btn editar">
+                            <i class="bi bi-pencil"></i> Editar
+                        </button>
+                    </form>
+                </div>
                             <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
@@ -531,6 +558,14 @@
                                         <strong>Recordatorio:</strong> <?= esc($tarea['fecha_recordatorio']) ?>
                                     </div>
                                 <?php endif; ?>
+                                <div class="acciones-tarea">
+                    <form action="<?= site_url('tarea/editar') ?>" method="post">
+                        <input type="hidden" name="id_tarea" value="<?= esc($tarea['id']) ?>">
+                        <button type="submit" class="accion-btn editar">
+                            <i class="bi bi-pencil"></i> Editar
+                        </button>
+                    </form>
+                </div>
                         
                             </div>
                         <?php endforeach; ?>
