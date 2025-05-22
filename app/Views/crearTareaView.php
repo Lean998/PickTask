@@ -336,7 +336,6 @@
     </div>
 
     <script>
-        // Función para seleccionar color
         function selectColor(color) {
             document.querySelectorAll('.color-option').forEach(option => {
                 option.classList.remove('selected');

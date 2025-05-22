@@ -18,8 +18,8 @@
         }
 
         .navbar {
-            background: transparent; /* Cambia el gradiente por transparente */
-    backdrop-filter: blur(8px); /* Efecto de vidrio esmerilado */
+            background: transparent; 
+    backdrop-filter: blur(8px);
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
             border-bottom: 3px solid #FFA600;
             padding: 0.5rem 1rem;
@@ -292,20 +292,19 @@
             color: white;
         }
 
-        /* Estilos para prioridades */
+        
         .borde-prioridad-baja {
-            border-top-color: #22c55e; /* verde */
+            border-top-color: #22c55e; 
         }
 
         .borde-prioridad-normal {
-            border-top-color: #FFD700; /* amarillo */
+            border-top-color: #FFD700; 
         }
 
         .borde-prioridad-alta {
-            border-top-color: #ef4444; /* rojo */
+            border-top-color: #ef4444; 
         }
 
-        /* Estilos para modo oscuro */
         body.dark-mode {
             background: linear-gradient(to top, #1a1a1a, #333);
             color: #f0f0f0;
@@ -332,7 +331,6 @@
             color: #ccc;
         }
 
-        /* Estilos para la alerta de recordatorio */
         .alert-recordatorio {
             position: fixed;
             left: 15px;
@@ -488,19 +486,19 @@
                 default => '',
             };
             
-            // Color del icono según prioridad
+     
             switch ($prioridad) {
                 case 'alta':
-                    $colorIcono = '#E53935'; // rojo fuerte
+                    $colorIcono = '#E53935'; 
                     break;
                 case 'normal':
-                    $colorIcono = '#FFB300'; // amarillo anaranjado
+                    $colorIcono = '#FFB300'; 
                     break;
                 case 'baja':
-                    $colorIcono = '#43A047'; // verde fuerte
+                    $colorIcono = '#43A047'; 
                     break;
                 default:
-                    $colorIcono = '#BDBDBD'; // gris neutro
+                    $colorIcono = '#BDBDBD'; 
             }
             ?>
             
@@ -589,19 +587,19 @@
                 default => '',
             };
             
-            // Color del icono según prioridad
+            
             switch ($prioridad) {
                 case 'alta':
-                    $colorIcono = '#E53935'; // rojo fuerte
+                    $colorIcono = '#E53935'; //Es rojo
                     break;
                 case 'normal':
-                    $colorIcono = '#FFB300'; // amarillo anaranjado
+                    $colorIcono = '#FFB300'; //Es anaranjado - amarillo
                     break;
                 case 'baja':
-                    $colorIcono = '#43A047'; // verde fuerte
+                    $colorIcono = '#43A047'; // Es verde
                     break;
                 default:
-                    $colorIcono = '#BDBDBD'; // gris neutro
+                    $colorIcono = '#BDBDBD'; // Es gris neutro
             }
             ?>
             
@@ -613,7 +611,6 @@
             border-top-width: 4px;
             border-bottom-width: 4px;
             position: relative;">
-                <!-- Icono de prioridad -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="<?= $colorIcono ?>" 
                      class="bi bi-exclamation-diamond-fill" viewBox="0 0 16 16"
                      style="position: absolute; top: 8px; right: 8px;">
@@ -664,14 +661,12 @@
     <?php endif; ?>
 </div>
     <script>
-        // Animación de aparición de las tarjetas
         window.addEventListener("DOMContentLoaded", () => {
             document.querySelectorAll('.tarea-card').forEach((card, i) => {
                 setTimeout(() => card.classList.add('show'), i * 80);
             });
         });
 
-        // Modo oscuro
         function toggleModoOscuro() {
             document.body.classList.toggle('dark-mode');
             localStorage.setItem('modoOscuro', document.body.classList.contains('dark-mode'));

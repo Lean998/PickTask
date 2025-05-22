@@ -109,5 +109,13 @@ public function actualizarEstadoPorSubtareas($idTarea) {
     $this->update($idTarea, ['estado' => $nuevoEstado]);
 }
 
+    public function obtenerTareasCompletasNoArchivadas($usuarioId)
+    {
+        return $this->where('usuario_id', $usuarioId)
+                    ->where('estado', 'completada')
+                    ->where('archivada', 0)
+                    ->findAll();
+    }
+
 }
 

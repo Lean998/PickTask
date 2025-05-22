@@ -248,7 +248,7 @@
         <div class="tab" onclick="switchTab('register')">Registrarse</div>
       </div>
 
-      <!-- Login Form -->
+    
       <div id="login-tab" class="tab-content active">
         <form action="<?= base_url('usuario/autenticar') ?>" method="post">
           <div class="form-group">
@@ -273,7 +273,7 @@
         </div>
       </div>
 
-      <!-- Register Form -->
+ 
       <div id="register-tab" class="tab-content">
         <form action="<?= base_url('usuario/guardarRegistro') ?>" method="post">
           <div class="form-group">
@@ -308,20 +308,16 @@
 
   <script>
     function switchTab(tabName) {
-      // Ocultar todos los contenidos de pestañas
       document.querySelectorAll('.tab-content').forEach(content => {
         content.classList.remove('active');
       });
 
-      // Mostrar el contenido de la pestaña seleccionada
       document.getElementById(`${tabName}-tab`).classList.add('active');
 
-      // Actualizar las pestañas activas
       document.querySelectorAll('.tab').forEach(tab => {
         tab.classList.remove('active');
       });
       
-      // Activar la pestaña correspondiente
       const tabs = document.querySelectorAll('.tab');
       if (tabName === 'login') {
         tabs[0].classList.add('active');
@@ -330,7 +326,6 @@
       }
     }
 
-    // Mostrar mensajes flash en la pestaña correcta
     document.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('register') === 'true') {

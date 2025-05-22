@@ -67,7 +67,6 @@ public function IniciarColaboracion()
         return redirect()->back()->with('error', 'Esta invitación ya fue usada o cancelada.');
     }
 
-    // Verifica sesión activa
     $usuarioId = session()->get('id_usuario');
     $correoSesion = session()->get('correo');
 

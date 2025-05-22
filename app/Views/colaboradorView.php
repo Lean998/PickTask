@@ -2,9 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>Detalles de la Tarea</title>
     <style>
@@ -352,7 +350,6 @@
                         </div>
                     </div>
                     
-                    <!-- Modal de Edición -->
                     <div class="modal fade" id="editarSubtareaModal<?= $sub['id'] ?>" tabindex="-1" aria-labelledby="editarSubtareaLabel<?= $sub['id'] ?>" aria-hidden="true">
                         <div class="modal-dialog">
                             <form action="<?= base_url('subtarea/editar/' . $sub['id']) ?>" method="post">
@@ -434,23 +431,22 @@
         <?php endif; ?>
     </div>
 
-    <!-- Modales (se mantienen igual que en tu código original) -->
     <div id="modalAgregarResponsable" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index:1000;">
-        <!-- Contenido del modal... -->
+        
     </div>
 
     <div id="modalInvitarCorreo" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index:1000;">
-        <!-- Contenido del modal... -->
+        
     </div>
 
     <div id="modalCrearSubtarea" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index:1000;">
-        <!-- Contenido del modal... -->
+        
     </div>
 
-    <!-- Bootstrap JS -->
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Funciones JavaScript (se mantienen igual que en tu código original)
+       
         function abrirModal(subtareaId) {
             document.getElementById('modalSubtareaId').value = subtareaId;
             document.getElementById('modalAgregarResponsable').style.display = 'block';

@@ -29,7 +29,6 @@ class inicio extends BaseController
     $TodosUsuariosSubTarea = $modeloMiembroSub->obtenerMiembrosSubTarea();
     $usuariosResponsables = $modeloColaboracion->obtenerColaboradores($usuarioId);
 
-    // Acumular datos de subtareas donde el usuario participa
     foreach ($TodosUsuariosSubTarea as $usSubTarea) {
         if ($usuarioId == $usSubTarea['usuario_id']) {
             $subUsuarios = $modeloMiembroSub->obtenerUsuariosConDatosPorSubtarea($usSubTarea['subtarea_id']);
@@ -42,19 +41,17 @@ class inicio extends BaseController
         }
     }
 
-    // Guardar tareas donde el usuario es colaborador
     foreach ($usuariosResponsables as $usResponsable) {
         if ($usuarioId == $usResponsable['usuario_id']) {
             $tareasResponsable[] = $usResponsable['tarea_id'];
         }
     }
 
-    // Obtener tareas propias y colaborativas
+
     $tareasPropias = $modeloTarea->obtenerTareasNoArchivadas($usuarioId);
     $tareasColaborativas = $modeloTarea->obtenerTareasColaborativas($usuarioId);
 
-    // Revisar recordatorios
-    $hoy = Time::now()->toDateString(); // Ej: "2025-05-16"
+    $hoy = Time::now()->toDateString(); 
     $recordatorios = [];
 
     $todasLasTareas = array_merge($tareasPropias, $tareasColaborativas);

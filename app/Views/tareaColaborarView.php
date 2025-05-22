@@ -395,17 +395,17 @@ $clasePrioridad = match ($prioridad) {
 };
 switch ($prioridad) {
                 case 'alta':
-                    $colorIcono = '#E53935'; // rojo fuerte
+                    $colorIcono = '#E53935'; //ES rojo
                     break;
                 case 'media':
                 case 'normal':
-                    $colorIcono = '#FFB300'; // amarillo anaranjado
+                    $colorIcono = '#FFB300'; //Es anaranjado - amarillo
                     break;
                 case 'baja':
-                    $colorIcono = '#43A047'; // verde fuerte
+                    $colorIcono = '#43A047'; //Es verde
                     break;
                 default:
-                    $colorIcono = '#BDBDBD'; // gris neutro
+                    $colorIcono = '#BDBDBD'; //Es gris neutro
             }
 
 ?>
@@ -414,7 +414,6 @@ switch ($prioridad) {
             border-bottom: 4px solid <?= esc(obtenerColoresTarea($tarea['color'])[0]); ?>;
             background-color: <?= esc(obtenerColoresTarea($tarea['color'])[1]); ?>;">
 
-<!-- Icono de prioridad -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="<?= $colorIcono ?>" 
                     class="bi bi-exclamation-diamond-fill prioridad-icono"
                     viewBox="0 0 16 16">
@@ -585,7 +584,6 @@ switch ($prioridad) {
 
 
     <script>
-        // Función para obtener colores
         function obtenerColoresTarea(colorNombre) {
             const colores = {
                 'rojo': ['#FF6B6B', '#FFECEC'],
@@ -601,7 +599,6 @@ switch ($prioridad) {
 
     
 
-        // Modo oscuro
         function toggleModoOscuro() {
             document.body.classList.toggle('dark-mode');
             localStorage.setItem('modoOscuro', document.body.classList.contains('dark-mode'));

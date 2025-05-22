@@ -40,6 +40,9 @@ $routes->post('invitacion/verificar', 'invitacionController::IniciarColaboracion
 $routes->get('invitacion/verificar', 'invitacionController::IniciarColaboracion');
 $routes->get('tareas/historial', 'tareaController::historial');
 $routes->get('tarea/archivar/(:num)', 'tareaController::archivar/$1');
+
+$routes->get('tarea/desarchivar/(:num)', 'tareaController::desarchivar/$1');
+
 $routes->post('tarea/editar', 'TareaController::editar');
 $routes->get('tarea/editar', 'TareaController::editar');
 $routes->post('tarea/actualizar', 'TareaController::actualizar');
@@ -61,4 +64,3 @@ $routes->get('subtarea/eliminar/(:num)', 'subTareaController::eliminar/$1');
 $routes->post('subtarea/editar/(:num)', 'subTareaController::editar/$1');
 $routes->get('subtarea/editar/(:num)', 'subTareaController::editar/$1');
 $routes->get('tarea/mostrarDetalles', 'tareaController::mostrarDetalles');
-

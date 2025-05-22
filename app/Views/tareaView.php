@@ -25,19 +25,19 @@
             min-height: 100vh;
         }
         
-        /* Estilos para prioridades */
+
         .borde-prioridad-baja {
-            border-top-color: #22c55e !important; /* verde */
+            border-top-color: #22c55e !important; 
             border-bottom-color: #22c55e !important;
         }
 
         .borde-prioridad-normal {
-            border-top-color: #FFD700 !important; /* amarillo */
+            border-top-color: #FFD700 !important; 
             border-bottom-color: #FFD700 !important;
         }
 
         .borde-prioridad-alta {
-            border-top-color: #ef4444 !important; /* rojo */
+            border-top-color: #ef4444 !important;
             border-bottom-color: #ef4444 !important;
         }
         
@@ -195,7 +195,6 @@
             padding: 20px;
         }
 
-        /* Icono de prioridad */
         .prioridad-icono {
             position: absolute;
             top: 8px;
@@ -284,17 +283,17 @@
 
             switch ($prioridad) {
                 case 'alta':
-                    $colorIcono = '#E53935'; // rojo fuerte
+                    $colorIcono = '#E53935'; //Es rojo
                     break;
                 case 'media':
                 case 'normal':
-                    $colorIcono = '#FFB300'; // amarillo anaranjado
+                    $colorIcono = '#FFB300'; //Es anaranjado amarillo
                     break;
                 case 'baja':
-                    $colorIcono = '#43A047'; // verde fuerte
+                    $colorIcono = '#43A047'; //Es verde
                     break;
                 default:
-                    $colorIcono = '#BDBDBD'; // gris neutro
+                    $colorIcono = '#BDBDBD'; //Es gris neutro
             }
             ?>                                                  
             <div class="tarea-card <?= $clasePrioridad ?>"
@@ -302,7 +301,6 @@
             border-bottom: 4px solid <?= esc(obtenerColoresTarea($tarea['color'])[0]); ?>;
             background-color: <?= esc(obtenerColoresTarea($tarea['color'])[1]); ?>;">
 
-                <!-- Icono de prioridad -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="<?= $colorIcono ?>" 
                     class="bi bi-exclamation-diamond-fill prioridad-icono"
                     viewBox="0 0 16 16">
@@ -413,25 +411,25 @@
                         default => '',
                     };
                     
-                    // Color del icono según prioridad
+                 
                     switch ($prioridadSubtarea) {
                         case 'alta':
-                            $colorIconoSubtarea = '#E53935'; // rojo fuerte
+                            $colorIconoSubtarea = '#E53935';
                             break;
                         case 'media':
                         case 'normal':
-                            $colorIconoSubtarea = '#FFB300'; // amarillo anaranjado
+                            $colorIconoSubtarea = '#FFB300'; 
                             break;
                         case 'baja':
-                            $colorIconoSubtarea = '#43A047'; // verde fuerte
+                            $colorIconoSubtarea = '#43A047'; 
                             break;
                         default:
-                            $colorIconoSubtarea = '#BDBDBD'; // gris neutro
+                            $colorIconoSubtarea = '#BDBDBD'; 
                     }
                     ?>
                     
                     <div class="subtarea-card <?= $clasePrioridadSubtarea ?>" style="border-top-color: <?= $borde ?>; border-bottom-color: <?= $borde ?>; background-color: <?= $fondo ?>">
-                        <!-- Icono de prioridad -->
+                  
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="<?= $colorIconoSubtarea ?>" 
                             class="bi bi-exclamation-diamond-fill prioridad-icono"
                             viewBox="0 0 16 16">
@@ -522,7 +520,7 @@
                         </div>
                     </div>
                     
-                    <!-- Modal de Edición -->
+                 
                     <div class="modal fade" id="editarSubtareaModal<?= $sub['id'] ?>" tabindex="-1" aria-labelledby="editarSubtareaLabel<?= $sub['id'] ?>" aria-hidden="true">
     <div class="modal-dialog">
         <form action="<?= base_url('subtarea/editar/' . $sub['id']) ?>" method="post">
@@ -727,7 +725,7 @@
             return colores[colorNombre.toLowerCase()] || ['#CCCCCC', '#F9F9F9'];
         }
 
-        // Funciones para manejar modales
+
         function abrirModal(subtareaId) {
             document.getElementById('modalSubtareaId').value = subtareaId;
             document.getElementById('modalAgregarResponsable').style.display = 'flex';

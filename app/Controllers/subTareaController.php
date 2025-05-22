@@ -13,7 +13,7 @@ class subTareaController extends BaseController
     {
         $subtarea_id = $this->request->getPost('subtarea_id');
         $usuario_id = $this->request->getPost('usuario_id');
-        $tarea_id = $this->request->getPost('tarea_id'); // lo estás pasando desde el formulario
+        $tarea_id = $this->request->getPost('tarea_id'); 
         //$tarea_id = $this->request->getPost('tarea_id');
         $model = new Subtarea();
         $model->quitarResponsable($subtarea_id, $usuario_id);
@@ -25,7 +25,6 @@ class subTareaController extends BaseController
          $tareaCtrl = new \App\Controllers\tareaController();
             session()->setFlashdata('tarea_id', $tarea_id);
 
-    // Simulás que le llega el POST
     return $tareaCtrl->mostrarDetalles();
     }
 
@@ -33,7 +32,7 @@ class subTareaController extends BaseController
 {
     $subtarea_id = $this->request->getPost('subtarea_id');
     $usuario_id = $this->request->getPost('usuario_id');
-    $tarea_id = $this->request->getPost('tarea_id'); // Asegurate de pasarlo en el formulario
+    $tarea_id = $this->request->getPost('tarea_id'); 
     $model = new Subtarea();
     $model->asignarResponsable($subtarea_id, $usuario_id);
     $tareaCtrl = new \App\Controllers\tareaController();
@@ -60,7 +59,7 @@ class subTareaController extends BaseController
         'tarea_id' => $this->request->getPost('tarea_id'),
         'titulo' => $this->request->getPost('titulo'),
         'descripcion' => $this->request->getPost('descripcion'),
-        'estado' => $this->request->getPost('estado') // importante agregar
+        'estado' => $this->request->getPost('estado')
     ];
 
     if ($modeloSubtarea->insert($data)) {

@@ -148,13 +148,13 @@ $colaboradores = $modeloColaboracion
         return redirect()->to('/tarea')->with('mensaje', 'Tarea actualizada con éxito');
     }
 
-    // En vez de borrar, se archiva
+    
     public function baja()
     {
         $id = $this->request->getPost('id_tarea');
         if ($id) {
             $tareaModel = new Tarea();
-            $tareaModel->update($id, ['archivada' => 1]); // Baja lógica
+            $tareaModel->update($id, ['archivada' => 1]); 
             return redirect()->to('/')->with('mensaje', 'Tarea archivada correctamente');
         }
         return redirect()->to('/')->with('error', 'No se pudo archivar la tarea');
@@ -167,13 +167,20 @@ $colaboradores = $modeloColaboracion
         return redirect()->to('/')->with('mensaje', 'Tarea archivada correctamente.');
     }
 
+    public function desarchivar($id)
+    {
+        $modeloTarea = new Tarea();
+        $modeloTarea->update($id, ['archivada' => 0]);
+        return redirect()->to('/')->with('mensaje', 'Tarea desarchivada correctamente.');
+    }
+
     public function historial()
     {
         $modeloTarea = new Tarea();
         $usuarioId = session('id_usuario') ?? 1;
         $data['tareasArchivadas'] = $modeloTarea->obtenerTareasArchivadas($usuarioId);
         $data['tareasActivas'] = $modeloTarea->obtenerTareasNoArchivadas($usuarioId);
-        $data['tareasFinalizadas'] = $modeloTarea->where('estado', 'completada')->findAll();
+        $data['tareasFinalizadas'] = $modeloTarea->obtenerTareasCompletasNoArchivadas($usuarioId);
         return view('historialView', $data);
     }
 

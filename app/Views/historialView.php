@@ -257,7 +257,6 @@
             grid-column: 1 / -1;
         }
 
-        /* Estilos para prioridades */
         .borde-prioridad-baja {
             border-top-color: #22c55e;
         }
@@ -270,7 +269,6 @@
             border-top-color: #ef4444;
         }
 
-        /* Efecto de desvanecimiento para archivadas */
         @keyframes fadeInArchived {
             from { opacity: 0; transform: translateX(20px) scale(0.95); }
             to { opacity: 0.9; transform: translateX(0) scale(0.98); }
@@ -324,7 +322,7 @@
             color: #aaa;
         }
 
-        /* Scroll personalizado */
+     
         .tareas-container::-webkit-scrollbar {
             width: 8px;
         }
@@ -381,6 +379,13 @@
 
         .cuenta-btn:hover .texto-cuenta {
             display: inline;
+        }
+        .accion-btn.archivar {
+            background-color: #28A745;
+            width: 100%;
+            margin-top: 0.3rem;
+            font-size: 0.8rem;
+            padding: 0.3rem;
         }
 
         .cuenta-btn:hover {
@@ -439,7 +444,7 @@
                 </ul>
             </div>
 
-            <!-- Cuenta -->
+           
             <div class="cuenta-container">
                 <div class="dropdown">
                     <button class="btn cuenta-btn dropdown-toggle d-flex align-items-center justify-content-center gap-1" type="button" id="dropdownCuenta" data-bs-toggle="dropdown" aria-expanded="false">
@@ -459,7 +464,6 @@
         <h2 class="seccion-titulo">Historial de Tareas</h2>
 
         <div class="columnas-historial">
-        <!-- Columna de Tareas Finalizadas -->
         <div class="columna-tareas">
             <h3 class="titulo-columna">
                 <i class="bi bi-lightning-charge-fill"></i> Finalizadas
@@ -517,7 +521,7 @@
             </div>
         </div>
 
-            <!-- Columna de Tareas Archivadas -->
+        
             <div class="columna-tareas archivadas">
                 <h3 class="titulo-columna">
                     <i class="bi bi-archive"></i> Archivadas
@@ -564,6 +568,9 @@
                         <button type="submit" class="accion-btn editar">
                             <i class="bi bi-pencil"></i> Editar
                         </button>
+                        <a href="<?= site_url('tarea/desarchivar/' . $tarea['id']) ?>" class="accion-btn archivar">
+                            <i class="bi bi-archive"></i>Desarchivar
+                        </a>
                     </form>
                 </div>
                         
@@ -576,7 +583,7 @@
     </div>
 
     <script>
-        // Animación de aparición de las tarjetas
+
         window.addEventListener("DOMContentLoaded", () => {
             document.querySelectorAll('.tarea-card').forEach((card, i) => {
                 setTimeout(() => {
@@ -587,7 +594,7 @@
             });
         });
 
-        // Modo oscuro
+      
         function toggleModoOscuro() {
             document.body.classList.toggle('dark-mode');
             localStorage.setItem('modoOscuro', document.body.classList.contains('dark-mode'));

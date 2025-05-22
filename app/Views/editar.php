@@ -245,7 +245,6 @@
                 </ul>
             </div>
 
-            <!-- Cuenta -->
             <div class="cuenta-container">
                 <div class="dropdown">
                     <button class="btn cuenta-btn dropdown-toggle d-flex align-items-center justify-content-center gap-1" type="button" id="dropdownCuenta" data-bs-toggle="dropdown" aria-expanded="false">
