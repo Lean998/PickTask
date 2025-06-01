@@ -64,3 +64,5 @@ $routes->get('subtarea/eliminar/(:num)', 'subTareaController::eliminar/$1');
 $routes->post('subtarea/editar/(:num)', 'subTareaController::editar/$1');
 $routes->get('subtarea/editar/(:num)', 'subTareaController::editar/$1');
 $routes->get('tarea/mostrarDetalles', 'tareaController::mostrarDetalles');
+
+

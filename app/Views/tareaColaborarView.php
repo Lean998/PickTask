@@ -237,7 +237,6 @@
             margin-bottom: 1rem;
         }
 
-        /* Modal styles */
         .modal-custom {
             display: none;
             position: fixed;
@@ -299,7 +298,6 @@
             background-color: #e0e0e0;
         }
 
-        /* Dark mode styles */
         body.dark-mode {
             background: linear-gradient(to top, #1a1a1a, #333);
             color: #f0f0f0;
@@ -395,17 +393,17 @@ $clasePrioridad = match ($prioridad) {
 };
 switch ($prioridad) {
                 case 'alta':
-                    $colorIcono = '#E53935'; //ES rojo
+                    $colorIcono = '#E53935'; 
                     break;
                 case 'media':
                 case 'normal':
-                    $colorIcono = '#FFB300'; //Es anaranjado - amarillo
+                    $colorIcono = '#FFB300'; 
                     break;
                 case 'baja':
-                    $colorIcono = '#43A047'; //Es verde
+                    $colorIcono = '#43A047'; 
                     break;
                 default:
-                    $colorIcono = '#BDBDBD'; //Es gris neutro
+                    $colorIcono = '#BDBDBD'; 
             }
 
 ?>

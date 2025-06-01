@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <title>Detalles de la Tarea</title>
     <style>
         :root {
@@ -226,6 +228,28 @@
             transform: translateY(-50%) scale(1.03);
             box-shadow: 0 3px 8px rgba(255, 140, 0, 0.3);
         }
+
+        .is-invalid {
+        border-color: #dc3545 !important;
+    }
+    .is-invalid:focus {
+        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+    }
+    .invalid-feedback {
+        color: #dc3545;
+        font-size: 0.875em;
+        margin-top: 0.25rem;
+    }
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border-left: 4px solid #dc3545;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        margin-top: -0.5rem;
+        margin-bottom: 1rem;
+    }
     </style>
 </head>
 <body>
@@ -283,17 +307,17 @@
 
             switch ($prioridad) {
                 case 'alta':
-                    $colorIcono = '#E53935'; //Es rojo
+                    $colorIcono = '#E53935'; 
                     break;
                 case 'media':
                 case 'normal':
-                    $colorIcono = '#FFB300'; //Es anaranjado amarillo
+                    $colorIcono = '#FFB300'; 
                     break;
                 case 'baja':
-                    $colorIcono = '#43A047'; //Es verde
+                    $colorIcono = '#43A047'; 
                     break;
                 default:
-                    $colorIcono = '#BDBDBD'; //Es gris neutro
+                    $colorIcono = '#BDBDBD'; 
             }
             ?>                                                  
             <div class="tarea-card <?= $clasePrioridad ?>"
@@ -443,14 +467,11 @@
                                     data-bs-toggle="modal" data-bs-target="#editarSubtareaModal<?= $sub['id'] ?>">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <form action="<?= base_url('subtarea/eliminar/' . $sub['id']) ?>" method="post" class="d-inline">
-                                    <?= csrf_field() ?>
-                                    <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger btn-icon" 
-                                        onclick="return confirm('¿Estás seguro de eliminar esta subtarea?')">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
+                                <button type="button" class="btn btn-sm btn-outline-danger btn-icon btn-eliminar" 
+    data-id="<?= $sub['id'] ?>"
+    data-tarea-id="<?= esc($tarea['id']) ?>">
+    <i class="fas fa-trash"></i>
+</button>
                             </div>
                         </div>
                         
@@ -494,15 +515,14 @@
                                             <strong><?= esc($usuario['nombre']) ?></strong>
                                             <div class="text-muted small"><?= esc($usuario['correo']) ?></div>
                                         </div>
-                                        <form action="<?= base_url('subtarea/quitarResponsable') ?>" method="post">
-                                            <input type="hidden" name="subtarea_id" value="<?= esc($sub['id']) ?>">
-                                            <input type="hidden" name="usuario_id" value="<?= esc($usuario['id']) ?>">
-                                            <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger" 
-                                                onclick="return confirm('¿Quitar a <?= esc($usuario['nombre']) ?> de esta subtarea?')">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        </form>
+                                        <form id="formQuitarResponsable_<?= esc($sub['id'])?>_<?= esc($usuario['id'])?>" onsubmit="quitarResponsable(event, <?= esc($sub['id'])?>, <?= esc($usuario['id'])?>, <?= esc($tarea['id'])?>, '<?= esc($usuario['nombre'])?>')">
+    <input type="hidden" name="subtarea_id" value="<?= esc($sub['id']) ?>">
+    <input type="hidden" name="usuario_id" value="<?= esc($usuario['id']) ?>">
+    <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
+    <button type="submit" class="btn btn-sm btn-outline-danger">
+        <i class="fas fa-times"></i>
+    </button>
+</form>
                                     </div>
                                 <?php endforeach; ?>
                             <?php else: ?>
@@ -523,7 +543,7 @@
                  
                     <div class="modal fade" id="editarSubtareaModal<?= $sub['id'] ?>" tabindex="-1" aria-labelledby="editarSubtareaLabel<?= $sub['id'] ?>" aria-hidden="true">
     <div class="modal-dialog">
-        <form action="<?= base_url('subtarea/editar/' . $sub['id']) ?>" method="post">
+        <form id="formEditarSubtarea<?= $sub['id'] ?>" action="<?= base_url('subtarea/editar/' . $sub['id']) ?>" method="post">
             <?= csrf_field() ?>
             <div class="modal-content">
                 <div class="modal-header">
@@ -533,11 +553,14 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Título</label>
-                        <input type="text" class="form-control" name="titulo" value="<?= esc($sub['titulo']) ?>" required>
+                        <input type="text" class="form-control" name="titulo" id="tituloEditSubtarea<?= $sub['id'] ?>" 
+                               value="<?= esc($sub['titulo']) ?>" required>
+                        <div class="invalid-feedback" id="titulo-error-edit<?= $sub['id'] ?>"></div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Descripción</label>
-                        <textarea class="form-control" name="descripcion" required><?= esc($sub['descripcion']) ?></textarea>
+                        <textarea class="form-control" name="descripcion" id="descripcionEditSubtarea<?= $sub['id'] ?>" 
+                                  required><?= esc($sub['descripcion']) ?></textarea>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -561,12 +584,16 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Fecha de vencimiento</label>
                             <input type="date" class="form-control" name="fecha_vencimiento" 
-                                   value="<?= esc($tarea['fecha_vencimiento']) ?>">
+                                   id="fechaVencimientoEdit<?= $sub['id'] ?>"
+                                   value="<?= esc($sub['fecha_vencimiento'] ?? $tarea['fecha_vencimiento']) ?>">
+                            <div class="invalid-feedback" id="fecha-vencimiento-error-edit<?= $sub['id'] ?>"></div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Fecha de recordatorio</label>
                             <input type="date" class="form-control" name="fecha_recordatorio" 
-                                   value="<?= esc($tarea['fecha_recordatorio']) ?>">
+                                   id="fechaRecordatorioEdit<?= $sub['id'] ?>"
+                                   value="<?= esc($sub['fecha_recordatorio'] ?? $tarea['fecha_recordatorio']) ?>">
+                            <div class="invalid-feedback" id="fecha-recordatorio-error-edit<?= $sub['id'] ?>"></div>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -606,111 +633,133 @@
     </div>
 
     <div id="modalAgregarResponsable" class="modal-custom">
-        <div class="modal-content-custom">
-            <h3><i class="fas fa-user-plus me-2"></i> Agregar responsable</h3>
-            <form action="<?= base_url('subtarea/agregarResponsable') ?>" method="post">
-                <?= csrf_field() ?>
-                <input type="hidden" name="subtarea_id" id="modalSubtareaId">
-                <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
-                
-                <div class="mb-3">
-                    <label for="usuario_id" class="form-label">Seleccionar colaborador:</label>
-                    <select name="usuario_id" id="usuario_id" class="form-select" required>
-                        <?php foreach ($colaboradores_disponibles as $colab): ?>
-                            <option value="<?= esc($colab['id']) ?>"><?= esc($colab['nombre']) ?> (<?= esc($colab['correo']) ?>)</option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                
-                <div class="d-flex justify-content-end gap-2 mt-4">
-                    <button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Asignar</button>
-                </div>
-            </form>
-        </div>
+    <div class="modal-content-custom">
+        <h3><i class="fas fa-user-plus me-2"></i> Agregar responsable</h3>
+        <form id="formAgregarResponsable">
+            <?= csrf_field() ?>
+            <input type="hidden" name="subtarea_id" id="modalSubtareaId">
+            <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
+            
+            <div class="mb-3">
+                <label for="usuario_id" class="form-label">Seleccionar colaborador:</label>
+                <select name="usuario_id" id="usuario_id" class="form-select" required>
+                    <?php foreach ($colaboradores_disponibles as $colab): ?>
+                        <option value="<?= esc($colab['id']) ?>"><?= esc($colab['nombre']) ?> (<?= esc($colab['correo']) ?>)</option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Asignar</button>
+            </div>
+        </form>
+        <div id="respuestaAjax" class="mt-3"></div>
     </div>
+</div>
 
     <div id="modalInvitarCorreo" class="modal-custom">
-        <div class="modal-content-custom">
-            <h3><i class="fas fa-envelope me-2"></i> Invitar colaborador</h3>
-            <form action="<?= base_url('tarea/enviarCorreo') ?>" method="post">
-                <?= csrf_field() ?>
-                <div class="mb-3">
-                    <label for="correo" class="form-label">Correo del colaborador:</label>
-                    <input type="email" name="correo" id="correo" class="form-control" placeholder="ejemplo@gmail.com" required>
-                </div>
-                <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
-                
-                <div class="d-flex justify-content-end gap-2 mt-4">
-                    <button type="button" class="btn btn-secondary" onclick="cerrarModalInvitar()">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Enviar invitación</button>
-                </div>
-            </form>
-        </div>
+    <div class="modal-content-custom">
+        <h3><i class="fas fa-envelope me-2"></i> Invitar colaborador</h3>
+        <form id="formInvitarCorreo">
+            <?= csrf_field() ?>
+            <div class="mb-3">
+                <label for="correo" class="form-label">Correo del colaborador:</label>
+                <input type="email" name="correo" id="correo" class="form-control" placeholder="ejemplo@gmail.com" required>
+                <div id="error-correo" class="invalid-feedback"></div>
+            </div>
+            <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
+            
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <button type="button" class="btn btn-secondary" onclick="cerrarModalInvitar()">Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="btnEnviarInvitacion">
+                    <span id="btnText">Enviar invitación</span>
+                    <span id="spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                </button>
+            </div>
+        </form>
     </div>
+</div>
 
     <div id="modalCrearSubtarea" class="modal-custom">
-        <div class="modal-content-custom">
-            <h3><i class="fas fa-plus-circle me-2"></i> Crear nueva subtarea</h3>
-            <form id="formCrearSubtarea" action="<?= base_url('subtarea/crear') ?>" method="post">
-                <?= csrf_field() ?>
-                <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
-                
-                <div class="mb-3">
-                    <label for="titulo" class="form-label">Título:</label>
-                    <input type="text" name="titulo" id="titulo" class="form-control" required>
-                </div>
-                
-                <div class="mb-3">
-                    <label for="descripcion" class="form-label">Descripción:</label>
-                    <textarea name="descripcion" id="descripcion" rows="3" class="form-control"></textarea>
+    <div class="modal-content-custom">
+        <h3><i class="fas fa-plus-circle me-2"></i> Crear nueva subtarea</h3>
+        <form id="formCrearSubtarea" action="<?= base_url('subtarea/crear') ?>" method="post">
+            <?= csrf_field() ?>
+            <input type="hidden" name="tarea_id" value="<?= esc($tarea['id']) ?>">
+            
+            <div class="mb-3">
+                <label for="titulo" class="form-label">Título:</label>
+                <input type="text" name="titulo" id="tituloSubtarea" class="form-control" required>
+                <div id="titulo-error" class="invalid-feedback" style="display: none;"></div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción:</label>
+                <textarea name="descripcion" id="descripcionSubtarea" rows="3" class="form-control"></textarea>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Estado:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="estado" id="estadoCreada" value="creada" checked>
+                        <label class="form-check-label" for="estadoCreada">Creada (Recomendada)</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="estado" id="estadoEnProceso" value="en_proceso">
+                        <label class="form-check-label" for="estadoEnProceso">En proceso</label>
+                    </div>
                 </div>
                 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label class="form-label">Estado:</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="estado" id="estadoEnProceso" value="en_proceso" required>
-                            <label class="form-check-label" for="estadoEnProceso">En proceso</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="estado" id="estadoCompletada" value="completada">
-                            <label class="form-check-label" for="estadoCompletada">Completada</label>
-                        </div>
+                        <label class="form-label">Fecha de vencimiento</label>
+                        <input type="date" class="form-control" name="fecha_vencimiento" id="fechaVencimientoSubtarea"
+                               value="<?= esc($tarea['fecha_vencimiento']) ?>">
+                        <div id="fecha-vencimiento-error" class="invalid-feedback" style="display: none;"></div>
                     </div>
-                    
                     <div class="col-md-6 mb-3">
-                        <label for="prioridad" class="form-label">Prioridad:</label>
-                        <select name="prioridad" id="prioridad" class="form-select" required>
-                            <option value="alta">Alta</option>
-                            <option value="media">Media</option>
-                            <option value="baja">Baja</option>
-                        </select>
+                        <label class="form-label">Fecha de recordatorio</label>
+                        <input type="date" class="form-control" name="fecha_recordatorio" id="fechaRecordatorioSubtarea"
+                               value="<?= esc($tarea['fecha_recordatorio']) ?>">
+                        <div id="fecha-recordatorio-error" class="invalid-feedback" style="display: none;"></div>
                     </div>
                 </div>
-                
-                <div class="mb-3">
-                    <label for="color" class="form-label">Color:</label>
-                    <select name="color" id="color" class="form-select" required>
-                        <option value="rojo">Rojo</option>
-                        <option value="azul">Azul</option>
-                        <option value="verde">Verde</option>
-                        <option value="naranja">Naranja</option>
-                        <option value="celeste">Celeste</option>
-                        <option value="gris">Gris</option>
-                        <option value="violeta">Violeta</option>
+
+                <div class="col-md-6 mb-3">
+                    <label for="prioridad" class="form-label">Prioridad:</label>
+                    <select name="prioridad" id="prioridadSubtarea" class="form-select" required>
+                        <option value="alta">Alta</option>
+                        <option value="media" selected>Media</option>
+                        <option value="baja">Baja</option>
                     </select>
                 </div>
-                
-                <div class="d-flex justify-content-end gap-2 mt-4">
-                    <button type="button" class="btn btn-secondary" onclick="cerrarModalSubtarea()">Cancelar</button>
-                    <button type="submit" class="btn btn-success">Crear subtarea</button>
-                </div>
-            </form>
-        </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="color" class="form-label">Color:</label>
+                <select name="color" id="colorSubtarea" class="form-select" required>
+                    <option value="rojo">Rojo</option>
+                    <option value="azul">Azul</option>
+                    <option value="verde">Verde</option>
+                    <option value="naranja">Naranja</option>
+                    <option value="celeste">Celeste</option>
+                    <option value="gris">Gris</option>
+                    <option value="violeta">Violeta</option>
+                </select>
+            </div>
+            
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <button type="button" class="btn btn-secondary" onclick="cerrarModalSubtarea()">Cancelar</button>
+                <button type="submit" class="btn btn-success">Crear subtarea</button>
+            </div>
+        </form>
     </div>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function obtenerColoresTarea(colorNombre) {
             const colores = {
@@ -727,13 +776,58 @@
 
 
         function abrirModal(subtareaId) {
-            document.getElementById('modalSubtareaId').value = subtareaId;
-            document.getElementById('modalAgregarResponsable').style.display = 'flex';
-        }
+    document.getElementById('modalSubtareaId').value = subtareaId;
+    document.getElementById('modalAgregarResponsable').style.display = 'flex';
+    document.getElementById('respuestaAjax').innerHTML = ''; 
+}
 
-        function cerrarModal() {
-            document.getElementById('modalAgregarResponsable').style.display = 'none';
+function cerrarModal() {
+    document.getElementById('modalAgregarResponsable').style.display = 'none';
+}
+
+document.getElementById('formAgregarResponsable').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const respuestaDiv = document.getElementById('respuestaAjax');
+    
+    fetch('<?= base_url('subtarea/agregarResponsable') ?>', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest' 
         }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            respuestaDiv.innerHTML = `
+                <div class="alert alert-success">
+                    Responsable asignado correctamente
+                </div>
+            `;
+            
+            setTimeout(() => {
+                cerrarModal();
+                window.location.reload();
+            }, 1500);
+        } else {
+            respuestaDiv.innerHTML = `
+                <div class="alert alert-danger">
+                    ${data.message || 'Error al asignar responsable'}
+                </div>
+            `;
+        }
+    })
+    .catch(error => {
+        respuestaDiv.innerHTML = `
+            <div class="alert alert-danger">
+                Error en la comunicación con el servidor
+            </div>
+        `;
+        console.error('Error:', error);
+    });
+});
 
         function mostrarModalInvitar() {
             document.getElementById('modalInvitarCorreo').style.display = 'flex';
@@ -751,17 +845,237 @@
             document.getElementById('modalCrearSubtarea').style.display = 'none';
         }
 
-        document.getElementById('formCrearSubtarea').addEventListener('submit', function(e) {
-            e.preventDefault();
+        document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('formCrearSubtarea');
+    const tituloInput = document.getElementById('tituloSubtarea');
+    const fechaVencimientoInput = document.getElementById('fechaVencimientoSubtarea');
+    const fechaRecordatorioInput = document.getElementById('fechaRecordatorioSubtarea');
+    
+    const today = new Date().toISOString().split('T')[0];
+    if (fechaVencimientoInput) fechaVencimientoInput.min = today;
+    if (fechaRecordatorioInput) fechaRecordatorioInput.min = today;
+    
+    tituloInput.addEventListener('input', validateTitulo);
+    if (fechaVencimientoInput) fechaVencimientoInput.addEventListener('change', validateFechas);
+    if (fechaRecordatorioInput) fechaRecordatorioInput.addEventListener('change', validateFechas);
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const isTituloValid = validateTitulo();
+        const isFechasValid = validateFechas();
+        
+        if (isTituloValid && isFechasValid) {
+            submitForm();
+        }
+    });
+    
+    function validateTitulo() {
+        const titulo = tituloInput.value.trim();
+        const errorElement = document.getElementById('titulo-error');
+        
+        if (titulo.length < 3) {
+            tituloInput.classList.add('is-invalid');
+            errorElement.textContent = 'El título debe tener al menos 3 caracteres.';
+            errorElement.style.display = 'block';
+            return false;
+        }
+        
+        tituloInput.classList.remove('is-invalid');
+        errorElement.style.display = 'none';
+        return true;
+    }
+    
+    function validateFechas() {
+        const fechaVencimiento = fechaVencimientoInput ? fechaVencimientoInput.value : null;
+        const fechaRecordatorio = fechaRecordatorioInput ? fechaRecordatorioInput.value : null;
+        let isValid = true;
+        
+        if (fechaVencimientoInput) {
+            fechaVencimientoInput.classList.remove('is-invalid');
+            document.getElementById('fecha-vencimiento-error').style.display = 'none';
+        }
+        
+        if (fechaRecordatorioInput) {
+            fechaRecordatorioInput.classList.remove('is-invalid');
+            document.getElementById('fecha-recordatorio-error').style.display = 'none';
+        }
+        
+        if (fechaVencimiento) {
+            const vencimientoDate = new Date(fechaVencimiento);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (vencimientoDate < today) {
+                fechaVencimientoInput.classList.add('is-invalid');
+                document.getElementById('fecha-vencimiento-error').textContent = 'La fecha de vencimiento no puede ser anterior a hoy.';
+                document.getElementById('fecha-vencimiento-error').style.display = 'block';
+                isValid = false;
+            }
+        }
+        
+        if (fechaRecordatorio && fechaVencimiento) {
+            const recordatorioDate = new Date(fechaRecordatorio);
+            const vencimientoDate = new Date(fechaVencimiento);
+            
+            if (recordatorioDate > vencimientoDate) {
+                fechaRecordatorioInput.classList.add('is-invalid');
+                document.getElementById('fecha-recordatorio-error').textContent = 'El recordatorio no puede ser posterior a la fecha de vencimiento.';
+                document.getElementById('fecha-recordatorio-error').style.display = 'block';
+                isValid = false;
+            }
+        }
+        
+        return isValid;
+    }
+    
+    function submitForm() {
+        const form = document.getElementById('formCrearSubtarea');
+        const formData = new FormData(form);
 
-            const form = e.target;
-            const formData = new FormData(form);
+        const csrfName = '<?= csrf_token() ?>';
+        const csrfHash = '<?= csrf_hash() ?>';
+        formData.append(csrfName, csrfHash);
+
+        fetch("<?= base_url('subtarea/crear') ?>", {
+            method: "POST",
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("✅ Subtarea creada correctamente.");
+                cerrarModalSubtarea();
+                location.reload();
+            } else {
+                if (data.errors) {
+                    let errorMessage = "Errores encontrados:\n";
+                    for (const [field, error] of Object.entries(data.errors)) {
+                        errorMessage += `- ${error}\n`;
+                    }
+                    alert(errorMessage);
+                } else {
+                    alert("❌ Error: " + (data.message || "No se pudo crear la subtarea."));
+                }
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            alert("⚠️ Hubo un error al enviar los datos.");
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    <?php foreach($subtareas as $sub): ?>
+    const formEdit<?= $sub['id'] ?> = document.getElementById('formEditarSubtarea<?= $sub['id'] ?>');
+    if (formEdit<?= $sub['id'] ?>) {
+        const tituloEdit<?= $sub['id'] ?> = document.getElementById('tituloEditSubtarea<?= $sub['id'] ?>');
+        const fechaVencimientoEdit<?= $sub['id'] ?> = document.getElementById('fechaVencimientoEdit<?= $sub['id'] ?>');
+        const fechaRecordatorioEdit<?= $sub['id'] ?> = document.getElementById('fechaRecordatorioEdit<?= $sub['id'] ?>');
+        
+        const today = new Date().toISOString().split('T')[0];
+        if (fechaVencimientoEdit<?= $sub['id'] ?>) fechaVencimientoEdit<?= $sub['id'] ?>.min = today;
+        if (fechaRecordatorioEdit<?= $sub['id'] ?>) fechaRecordatorioEdit<?= $sub['id'] ?>.min = today;
+        
+
+        tituloEdit<?= $sub['id'] ?>.addEventListener('input', function() {
+            validateTituloEdit<?= $sub['id'] ?>();
+        });
+        
+        if (fechaVencimientoEdit<?= $sub['id'] ?>) {
+            fechaVencimientoEdit<?= $sub['id'] ?>.addEventListener('change', function() {
+                validateFechasEdit<?= $sub['id'] ?>();
+            });
+        }
+        
+        if (fechaRecordatorioEdit<?= $sub['id'] ?>) {
+            fechaRecordatorioEdit<?= $sub['id'] ?>.addEventListener('change', function() {
+                validateFechasEdit<?= $sub['id'] ?>();
+            });
+        }
+   
+        formEdit<?= $sub['id'] ?>.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const isTituloValid = validateTituloEdit<?= $sub['id'] ?>();
+            const isFechasValid = validateFechasEdit<?= $sub['id'] ?>();
+            
+            if (isTituloValid && isFechasValid) {
+                submitEditForm<?= $sub['id'] ?>();
+            }
+        });
+        
+        function validateTituloEdit<?= $sub['id'] ?>() {
+            const titulo = tituloEdit<?= $sub['id'] ?>.value.trim();
+            const errorElement = document.getElementById('titulo-error-edit<?= $sub['id'] ?>');
+            
+            if (titulo.length < 3) {
+                tituloEdit<?= $sub['id'] ?>.classList.add('is-invalid');
+                errorElement.textContent = 'El título debe tener al menos 3 caracteres.';
+                errorElement.style.display = 'block';
+                return false;
+            }
+            
+            tituloEdit<?= $sub['id'] ?>.classList.remove('is-invalid');
+            errorElement.style.display = 'none';
+            return true;
+        }
+        
+        function validateFechasEdit<?= $sub['id'] ?>() {
+            const fechaVencimiento = fechaVencimientoEdit<?= $sub['id'] ?> ? fechaVencimientoEdit<?= $sub['id'] ?>.value : null;
+            const fechaRecordatorio = fechaRecordatorioEdit<?= $sub['id'] ?> ? fechaRecordatorioEdit<?= $sub['id'] ?>.value : null;
+            let isValid = true;
+            
+            if (fechaVencimientoEdit<?= $sub['id'] ?>) {
+                fechaVencimientoEdit<?= $sub['id'] ?>.classList.remove('is-invalid');
+                document.getElementById('fecha-vencimiento-error-edit<?= $sub['id'] ?>').style.display = 'none';
+            }
+            
+            if (fechaRecordatorioEdit<?= $sub['id'] ?>) {
+                fechaRecordatorioEdit<?= $sub['id'] ?>.classList.remove('is-invalid');
+                document.getElementById('fecha-recordatorio-error-edit<?= $sub['id'] ?>').style.display = 'none';
+            }
+            
+            if (fechaVencimiento) {
+                const vencimientoDate = new Date(fechaVencimiento);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                if (vencimientoDate < today) {
+                    fechaVencimientoEdit<?= $sub['id'] ?>.classList.add('is-invalid');
+                    document.getElementById('fecha-vencimiento-error-edit<?= $sub['id'] ?>').textContent = 'La fecha de vencimiento no puede ser anterior a hoy.';
+                    document.getElementById('fecha-vencimiento-error-edit<?= $sub['id'] ?>').style.display = 'block';
+                    isValid = false;
+                }
+            }
+            
+            if (fechaRecordatorio && fechaVencimiento) {
+                const recordatorioDate = new Date(fechaRecordatorio);
+                const vencimientoDate = new Date(fechaVencimiento);
+                
+                if (recordatorioDate > vencimientoDate) {
+                    fechaRecordatorioEdit<?= $sub['id'] ?>.classList.add('is-invalid');
+                    document.getElementById('fecha-recordatorio-error-edit<?= $sub['id'] ?>').textContent = 'El recordatorio no puede ser posterior a la fecha de vencimiento.';
+                    document.getElementById('fecha-recordatorio-error-edit<?= $sub['id'] ?>').style.display = 'block';
+                    isValid = false;
+                }
+            }
+            
+            return isValid;
+        }
+        
+        function submitEditForm<?= $sub['id'] ?>() {
+            const formData = new FormData(formEdit<?= $sub['id'] ?>);
 
             const csrfName = '<?= csrf_token() ?>';
             const csrfHash = '<?= csrf_hash() ?>';
             formData.append(csrfName, csrfHash);
 
-            fetch("<?= base_url('subtarea/crear') ?>", {
+            fetch(formEdit<?= $sub['id'] ?>.action, {
                 method: "POST",
                 body: formData,
                 headers: {
@@ -771,18 +1085,172 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert("✅ Subtarea creada correctamente.");
-                    cerrarModalSubtarea();
+                    alert("✅ Subtarea actualizada correctamente.");
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('editarSubtareaModal<?= $sub['id'] ?>'));
+                    if (modal) modal.hide();
                     location.reload();
                 } else {
-                    alert("❌ Error: " + (data.message || "No se pudo crear la subtarea."));
+                    if (data.errors) {
+                        let errorMessage = "Errores encontrados:\n";
+                        for (const [field, error] of Object.entries(data.errors)) {
+                            errorMessage += `- ${error}\n`;
+                        }
+                        alert(errorMessage);
+                    } else {
+                        alert("❌ Error: " + (data.message || "No se pudo actualizar la subtarea."));
+                    }
                 }
             })
             .catch(error => {
                 console.error(error);
                 alert("⚠️ Hubo un error al enviar los datos.");
             });
+        }
+    }
+    <?php endforeach; ?>
+});
+
+
+$(document).ready(function() {
+    $(document).on('click', '.btn-eliminar', function() {
+        const subtareaId = $(this).data('id');
+        const tareaId = $(this).data('tarea-id');
+        
+        if (confirm('¿Estás seguro de eliminar esta subtarea?')) {
+            eliminarSubtarea(subtareaId, tareaId);
+        }
+    });
+
+    function eliminarSubtarea(id, tarea_id) {
+        $.ajax({
+            url: '<?= base_url("subtarea/eliminar") ?>/' + id,
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                tarea_id: tarea_id,
+                <?= csrf_token() ?>: '<?= csrf_hash() ?>'
+            },
+            success: function(response) {
+                if (response.success) {
+                    location.reload();
+                    
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function(xhr) {
+                alert('Error en la petición: ' + xhr.responseText);
+            }
         });
+    }
+});
+
+$(document).ready(function() {
+    $('#formInvitarCorreo').submit(function(e) {
+        e.preventDefault();
+        
+        $('#btnEnviarInvitacion').prop('disabled', true);
+        $('#spinner').removeClass('d-none');
+        $('#btnText').text('Enviando...');
+        
+        $('#correo').removeClass('is-invalid');
+        $('#error-correo').text('');
+        
+        $.ajax({
+            url: '<?= base_url('tarea/enviarCorreo') ?>',
+            type: 'POST',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    alert('Invitación enviada correctamente');
+                    cerrarModalInvitar();
+                } else {
+                    if (response.message) {
+                        alert(response.message);
+                    }
+                    if (response.errors) {
+                        if (response.errors.correo) {
+                            $('#correo').addClass('is-invalid');
+                            $('#error-correo').text(response.errors.correo);
+                        }
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('Error al enviar la invitación: ' + error);
+            },
+            complete: function() {
+                $('#btnEnviarInvitacion').prop('disabled', false);
+                $('#spinner').addClass('d-none');
+                $('#btnText').text('Enviar invitación');
+            }
+        });
+    });
+});
+
+function cerrarModalInvitar() {
+    $('#modalInvitarCorreo').hide();
+    $('#formInvitarCorreo')[0].reset();
+}
+
+
+function quitarResponsable(event, subtareaId, usuarioId, tareaId, nombreUsuario) {
+    event.preventDefault();
+    
+    if (!confirm(`¿Quitar a ${nombreUsuario} de esta subtarea?`)) {
+        return false;
+    }
+    
+    $.ajax({
+        url: '<?= base_url('subtarea/quitarResponsable') ?>',
+        method: 'POST',
+        data: {
+            subtarea_id: subtareaId,
+            usuario_id: usuarioId,
+            tarea_id: tareaId
+        },
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+
+                Toastify({
+                    text: `Se ha quitado a ${nombreUsuario} de la subtarea`,
+                    duration: 3000,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "#28a745",
+                }).showToast();
+                
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+                
+            } else {
+                Toastify({
+                    text: `Error: ${response.message}`,
+                    duration: 3000,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "#dc3545",
+                }).showToast();
+            }
+        },
+        error: function(xhr, status, error) {
+            Toastify({
+                text: `Error en la petición: ${error}`,
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#dc3545",
+            }).showToast();
+        }
+    });
+}
+
     </script>
 </body>
 

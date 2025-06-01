@@ -59,7 +59,7 @@ $colaboradores = $modeloColaboracion
         });
 
         $data['colaboradores_disponibles'] = $colaboradoresDisponibles;
-        $data['correo_usuario_logueado'] = session()->get('correo'); // o el campo que uses en sesión
+        $data['correo_usuario_logueado'] = session()->get('correo');
 
 
         return view('tareaColaborarView', $data);

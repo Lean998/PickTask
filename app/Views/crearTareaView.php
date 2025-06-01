@@ -264,7 +264,6 @@
                 </ul>
             </div>
 
-            <!-- Cuenta -->
             <div class="cuenta-container">
                 <div class="dropdown">
                     <button class="btn cuenta-btn dropdown-toggle d-flex align-items-center justify-content-center gap-1" type="button" id="dropdownCuenta" data-bs-toggle="dropdown" aria-expanded="false">
@@ -344,6 +343,119 @@
             document.querySelector(`.color-option[data-color="${color}"]`).classList.add('selected');
             document.getElementById('color').value = color;
         }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const tituloInput = document.getElementById('titulo');
+    const fechaVencimientoInput = document.getElementById('fecha_vencimiento');
+    const fechaRecordatorioInput = document.getElementById('fecha_recordatorio');
+    
+    const today = new Date().toISOString().split('T')[0];
+    fechaVencimientoInput.min = today;
+    fechaRecordatorioInput.min = today;
+    
+    tituloInput.addEventListener('input', validateTitulo);
+    fechaVencimientoInput.addEventListener('change', validateFechas);
+    fechaRecordatorioInput.addEventListener('change', validateFechas);
+    
+    form.addEventListener('submit', function(e) {
+        if (!validateTitulo() || !validateFechas()) {
+            e.preventDefault();
+        }
+    });
+    
+    function validateTitulo() {
+        const titulo = tituloInput.value.trim();
+        const errorElement = document.getElementById('titulo-error');
+        
+        if (errorElement) {
+            errorElement.remove();
+        }
+        
+        if (titulo.length < 3) {
+            const errorDiv = document.createElement('div');
+            errorDiv.id = 'titulo-error';
+            errorDiv.className = 'alert alert-danger mt-2';
+            errorDiv.innerHTML = `
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                El título debe tener al menos 3 caracteres.
+            `;
+            
+            tituloInput.insertAdjacentElement('afterend', errorDiv);
+            tituloInput.classList.add('is-invalid');
+            return false;
+        }
+        
+        tituloInput.classList.remove('is-invalid');
+        return true;
+    }
+    
+    function validateFechas() {
+        const fechaVencimiento = fechaVencimientoInput.value;
+        const fechaRecordatorio = fechaRecordatorioInput.value;
+        let isValid = true;
+        
+        document.querySelectorAll('.fecha-error').forEach(el => el.remove());
+        
+        if (fechaVencimiento) {
+            const vencimientoDate = new Date(fechaVencimiento);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (vencimientoDate < today) {
+                showFechaError(fechaVencimientoInput, 'La fecha de vencimiento no puede ser anterior a hoy.');
+                isValid = false;
+            }
+        }
+        
+        if (fechaRecordatorio && fechaVencimiento) {
+            const recordatorioDate = new Date(fechaRecordatorio);
+            const vencimientoDate = new Date(fechaVencimiento);
+            
+            if (recordatorioDate > vencimientoDate) {
+                showFechaError(fechaRecordatorioInput, 'El recordatorio no puede ser posterior a la fecha de vencimiento.');
+                isValid = false;
+            }
+        }
+        
+        return isValid;
+    }
+    
+    function showFechaError(inputElement, message) {
+        inputElement.classList.add('is-invalid');
+        
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'alert alert-danger mt-2 fecha-error';
+        errorDiv.innerHTML = `
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            ${message}
+        `;
+        
+        inputElement.insertAdjacentElement('afterend', errorDiv);
+    }
+});
+
+const style = document.createElement('style');
+style.textContent = `
+    .is-invalid {
+        border-color: #dc3545 !important;
+    }
+    .is-invalid:focus {
+        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
+    }
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border-left: 4px solid #dc3545;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        margin-top: -0.5rem;
+        margin-bottom: 1rem;
+    }
+`;
+document.head.appendChild(style);
+
     </script>
 </body>
 </html>

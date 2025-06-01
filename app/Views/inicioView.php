@@ -442,9 +442,10 @@
 
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid position-relative">
-            <a href="javascript:history.back()" class="btn-volver">
-                <i class="bi bi-arrow-left"></i> Volver
-            </a>
+            <a href="<?= base_url('/') ?>" class="btn-volver">
+    <i class="bi bi-arrow-left"></i> Volver
+</a>
+
             
             <div class="navbar-container">
                 <ul class="navbar-nav flex-row">
@@ -455,7 +456,6 @@
                 </ul>
             </div>
 
-            <!-- Cuenta -->
             <div class="cuenta-container">
                 <div class="dropdown">
                     <button class="btn cuenta-btn dropdown-toggle d-flex align-items-center justify-content-center gap-1" type="button" id="dropdownCuenta" data-bs-toggle="dropdown" aria-expanded="false">
@@ -590,16 +590,16 @@
             
             switch ($prioridad) {
                 case 'alta':
-                    $colorIcono = '#E53935'; //Es rojo
+                    $colorIcono = '#E53935'; 
                     break;
                 case 'normal':
-                    $colorIcono = '#FFB300'; //Es anaranjado - amarillo
+                    $colorIcono = '#FFB300'; 
                     break;
                 case 'baja':
-                    $colorIcono = '#43A047'; // Es verde
+                    $colorIcono = '#43A047'; 
                     break;
                 default:
-                    $colorIcono = '#BDBDBD'; // Es gris neutro
+                    $colorIcono = '#BDBDBD'; 
             }
             ?>
             

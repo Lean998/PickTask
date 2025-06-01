@@ -145,20 +145,25 @@ $colaboradores = $modeloColaboracion
         $idTarea = $idTarea = session()->getFlashdata('tarea_id');
         $modeloTarea->actualizarEstadoPorSubtareas($idTarea);
         session()->setFlashdata('tarea_id', $idTarea);
-        return redirect()->to('/tarea')->with('mensaje', 'Tarea actualizada con éxito');
+        return redirect()->to('/')->with('mensaje', 'Tarea actualizada con éxito');
     }
 
     
     public function baja()
-    {
-        $id = $this->request->getPost('id_tarea');
-        if ($id) {
-            $tareaModel = new Tarea();
-            $tareaModel->update($id, ['archivada' => 1]); 
-            return redirect()->to('/')->with('mensaje', 'Tarea archivada correctamente');
-        }
-        return redirect()->to('/')->with('error', 'No se pudo archivar la tarea');
+{
+    $id = $this->request->getPost('id_tarea');
+    if ($id) {
+        $tareaModel = new Tarea();
+        $subtareaModel = new Subtarea();
+        
+        $subtareaModel->where('tarea_id', $id)->delete();
+        
+        $tareaModel->delete($id);
+        
+        return redirect()->to('/')->with('mensaje', 'Tarea eliminada correctamente');
     }
+    return redirect()->to('/')->with('error', 'No se pudo eliminar la tarea');
+}
 
     public function archivar($id)
     {

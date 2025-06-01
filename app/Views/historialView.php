@@ -278,7 +278,6 @@
             animation: fadeInArchived 0.4s ease-out forwards;
         }
 
-        /* Estilos para modo oscuro */
         body.dark-mode {
             background: linear-gradient(to top, #1a1a1a, #333);
             color: #f0f0f0;
