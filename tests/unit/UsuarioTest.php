@@ -1,10 +1,8 @@
 <?php
 
-use CodeIgniter\Test\FeatureTestTrait;
 use PHPUnit\Framework\TestCase;
 use Config\Services;
     class UsuarioTest extends TestCase {
-    use FeatureTestTrait;
     
     public function testGuardarUsuarioValido(){
     //Declaracion de los datos

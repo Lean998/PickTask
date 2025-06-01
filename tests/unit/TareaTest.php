@@ -30,6 +30,7 @@ use App\Models\Tarea;
         
     }
 
+
     public function testGuardarTareaConDatosInvalidos(){
         //Inicializar el modelo
         $tarea = new Tarea();
