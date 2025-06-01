@@ -202,6 +202,8 @@
       border-left: 4px solid #28a745;
     }
 
+    
+
     .alert i {
       margin-right: 10px;
       font-size: 1.2rem;
@@ -216,6 +218,9 @@
         padding: 20px;
       }
     }
+
+    
+
   </style>
 </head>
 <body>
@@ -331,7 +336,67 @@
       if (urlParams.get('register') === 'true') {
         switchTab('register');
       }
+    }
+    );
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const usernameInput = document.getElementById('register-nombre');
+      
+      if (usernameInput) {
+        usernameInput.addEventListener('blur', validateUsername);
+        usernameInput.addEventListener('input', validateUsername);
+        
+        const registerForm = document.querySelector('#register-tab form');
+        if (registerForm) {
+          registerForm.addEventListener('submit', function(e) {
+            if (!validateUsername()) {
+              e.preventDefault();
+              usernameInput.focus();
+            }
+          });
+        }
+      }
+      
+      function validateUsername() {
+        const username = usernameInput.value.trim();
+        const errorElement = document.getElementById('username-error');
+        
+        const letterCount = (username.match(/[a-zA-ZáéíóúÁÉÍÓÚñÑ]/g) || []).length;
+        const isOnlyNumbers = /^[0-9]+$/.test(username);
+        
+        if (errorElement) {
+          errorElement.remove();
+        }
+        
+        if (letterCount < 3 || isOnlyNumbers) {
+          const errorDiv = document.createElement('div');
+          errorDiv.id = 'username-error';
+          errorDiv.className = 'alert alert-danger';
+          errorDiv.innerHTML = `
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            El nombre debe contener al menos 3 letras y no puede ser solo números.
+          `;
+          
+          usernameInput.insertAdjacentElement('afterend', errorDiv);
+          usernameInput.classList.add('is-invalid');
+          return false;
+        }
+        
+        usernameInput.classList.remove('is-invalid');
+        return true;
+      }
     });
+
+    const style = document.createElement('style');
+    style.textContent = `
+      .is-invalid {
+        border-color: #dc3545 !important;
+      }
+      .is-invalid:focus {
+        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2) !important;
+      }
+    `;
+    document.head.appendChild(style);
   </script>
 </body>
 </html>

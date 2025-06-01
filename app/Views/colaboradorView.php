@@ -313,7 +313,6 @@
                             </div>
                         </div>
                         
-                        <!-- Responsables -->
                         <div class="responsables-list">
                             <h6><i class="fas fa-user-friends me-1"></i>Responsables</h6>
                             
