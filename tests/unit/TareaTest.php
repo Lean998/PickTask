@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use App\Models\Tarea;
     class TareaTest extends TestCase {
     use FeatureTestTrait;
-
+    
     public function testGuardarTareaConDatosValidos(){
         //Inicializar el modelo
         $tarea = new Tarea();
@@ -17,7 +17,6 @@ use App\Models\Tarea;
             'descripcion' => 'Desde test',
             'prioridad' => 'normal',
             'fecha_vencimiento' => '2025-12-31',
-            'fecha_recordatorio' => '2025-12-01',
             'color' => 'azul',
         ];
         
@@ -61,4 +60,39 @@ use App\Models\Tarea;
         $this->assertArrayHasKey('prioridad', $errors);
     }
 
+    public function testGuardarTareaConRecordatorio()
+    {
+        $tarea = new Tarea();
+
+        $data = [
+            'titulo' => 'Entrega TP Final',
+            'descripcion' => 'Prueba con fechas incorrectas',
+            'prioridad' => 'alta',
+            'fecha_vencimiento' => '2025-06-01',
+            'fecha_recordatorio' => '2025-06-11',
+            'color' => 'verde',
+        ];
+
+        $result = $tarea->validate($data);
+
+        $this->assertTrue($result);
+    }
+
+    public function testGuardarTareaConRecordatorioInvalido()
+    {
+        $tarea = new Tarea();
+
+        $data = [
+            'titulo' => 'Entrega TP Final',
+            'descripcion' => 'Prueba con fechas incorrectas',
+            'prioridad' => 'alta',
+            'fecha_vencimiento' => '2025-06-01',
+            'fecha_recordatorio' => 'null',
+            'color' => 'verde',
+        ];
+
+        $result = $tarea->validate($data);
+
+        $this->assertFalse($result);
+    }
 }

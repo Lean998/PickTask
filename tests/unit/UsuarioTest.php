@@ -25,6 +25,7 @@ use Config\Services;
     $this->assertTrue($validation->run($data));
 }
 
+
 public function testGuardarUsuarioInvalido(){
     //Declaracion de los datos
     $data = [
