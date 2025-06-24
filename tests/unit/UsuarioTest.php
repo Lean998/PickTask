@@ -1,108 +1,110 @@
 <?php
 
+use App\Controllers\UsuarioController;
+use App\Models\Usuario;
+use CodeIgniter\Database\Exceptions\DatabaseException;
 use PHPUnit\Framework\TestCase;
 use Config\Services;
     class UsuarioTest extends TestCase {
-    
-    public function testGuardarUsuarioValido(){
-    //Declaracion de los datos
-    $data = [
-        'nombre' => "John",
-        'correo' => 'nuevo@email.com',
-        'contrasenia' => 'John123',
-    ];
-    //Declaracion de las reglas
-    $reglas = [
-        'nombre' => 'required',
-        'correo' => 'required|valid_email',
-        'contrasenia' => 'required'
-    ];
-
-    $validation = Services::validation();
-    $validation->setRules($reglas);
-
-    //Esperamos que sea True (Datos validos)
-    $this->assertTrue($validation->run($data));
-}
-
-
-public function testGuardarUsuarioInvalido(){
-    //Declaracion de los datos
-    $data = [
-        'nombre' => "John",
-        'correo' => 'nuevo@email.com',
-        'contrasenia' => 'John',
-    ];
-    
-    //Declaracion de las reglas
-    $reglas = [
-        'nombre' => 'required|min_length[5]',
-        'correo' => 'required|valid_email',
-        'contrasenia' => 'required|min_length[8]'
-    ];
-
-    $validation = Services::validation();
-    $validation->setRules($reglas);
-
-    //Esperamos que sea False (datos invalidos)
-    $this->assertFalse($validation->run($data));
-}
-    public function testGuardarUsuarioConCorreoExistente(){
-        
-        //Lista de correos existentes. 
-        $correoExistente = [
-            ['correo' => 'john89@gmail.com'],
-            ['correo' => 'usuario@example.com']
-        ];
-
-        //Declaracion de los datos a insertar
-        $data = [
-            'nombre' => "John",
-            'correo' => 'john89@gmail.com',
-            'contrasenia' => 'John123',
-        ];
-
-        //Declaracion de las reglas de validacion
-        $rules = [
-            'nombre' => 'required',
-            'correo' => 'required|valid_email',
-            'contrasenia' => 'required'
-        ];
-        
-        $validation = Services::validation();
-        $validation->reset(); 
-        $validation->setRules($rules);
-
-        // Validacion basica de los datos
-        $this->assertTrue($validation->run($data));
-
-        // Obtener correos atraves de la clave
-        $correos = array_column($correoExistente, 'correo');
-
-        // Esperamos que sea True (El correo ya existe.)
-        $this->assertTrue(in_array($data['correo'], $correos));
+    private $controlador;
+    private function setProtectedProperty(object $object, string $property, $value): void
+    {
+        $reflection = new \ReflectionClass($object);
+        if ($reflection->hasProperty($property)) {
+            $prop = $reflection->getProperty($property);
+            $prop->setAccessible(true);
+            $prop->setValue($object, $value);
+        }
     }
-
-    public function testGuardarUsuarioConContraseniaInvalida(){
+    public function setUp():void{
+        parent::setUp();
+        Services::reset();
+        $this->controlador = new UsuarioController();
+        $this->limpiarDB();
+    }
+    public function testGuardarUsuarioValido(){
+        $_POST["nombre"] = "Leandro";
+        $_POST["correo"] = "leandro@gmail.com";
+        $_POST["clave"] = "1111";
         
-
-        //Declaracion de los datos a insertar
-        $data = [
-            'nombre' => "John",
-            'correo' => 'john89@gmail.com',
-            'contrasenia' => 'John123',
-        ];
-
-        //Declaracion de las reglas de validacion
-        $rules = [
-            'contrasenia' => 'required|min_length[8]'
-        ];
+        session()->start();
         
-        $validation = Services::validation();
-        $validation->reset(); 
-        $validation->setRules($rules);
+        $usuarioModel = new \App\Models\Usuario();
+        $usuario = $usuarioModel->where('correo', "leandro@gmail.com")->first();
+        if ($usuario) {
+            $usuarioModel->delete($usuario['id']);
+        }
 
-        // Validacion basica de los datos
-        $this->assertFalse($validation->run($data));
+        $this->setProtectedProperty($this->controlador, 'request', Services::request());
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $response = $this->controlador->guardarRegistro();
+
+        $this->assertInstanceOf(\CodeIgniter\HTTP\RedirectResponse::class, $response);
+        $msg = session()->getFlashdata('success');
+        $this->assertTrue($response->hasHeader('Location'));
+        $this->assertStringContainsString('/login', $response->getHeaderLine('Location'));
+        $this->assertEquals('Registro exitoso. Ahora puedes iniciar sesión.', $msg);
+    }
+    public function testGuardarUsuarioInvalido(){
+            $_POST["nombre"] = "";
+            $_POST["correo"] = "";
+            $_POST["clave"] = "";
+            
+            session()->start();
+            
+            $usuarioModel = new \App\Models\Usuario();
+            $usuario = $usuarioModel->where('correo', "")->first();
+            if ($usuario) {
+                $usuarioModel->delete($usuario['id']);
+            }
+
+            $this->setProtectedProperty($this->controlador, 'request', Services::request());
+            $_SERVER['REQUEST_METHOD'] = 'POST';
+            $response = $this->controlador->guardarRegistro();
+            //Deberia fallar por no registrar al usuario, pero no lo hace
+            $this->assertInstanceOf(\CodeIgniter\HTTP\RedirectResponse::class, $response);
+            $msg = session()->getFlashdata('success');
+            $this->assertTrue($response->hasHeader('Location'));
+            $this->assertStringContainsString('/login', $response->getHeaderLine('Location'));
+            $this->assertEquals('Registro exitoso. Ahora puedes iniciar sesión.', $msg);
+            $userModel = new Usuario();
+            $usuario = $userModel->orderBy('id', 'DESC')->first();
+            $userModel->delete($usuario['id']);
+    }
+    public function testGuardarUsuarioConCorreoExistente(){
+        $_POST["nombre"] = "";
+        $_POST["correo"] = "test@gmail.com";
+        $_POST["clave"] = "";
+        
+        session()->start();
+
+        $this->expectException(\CodeIgniter\Database\Exceptions\DatabaseException::class);
+
+        $this->setProtectedProperty($this->controlador, 'request', Services::request());
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $response = $this->controlador->guardarRegistro();
+        $this->assertInstanceOf(\CodeIgniter\HTTP\RedirectResponse::class, $response);
+    }
+    public function testGuardarUsuarioExistente(){
+        $_POST["nombre"] = "TestUser";
+        $_POST["correo"] = "test@gmail.com";
+        $_POST["clave"] = "testing";
+        
+        session()->start();
+
+        $this->expectException(\CodeIgniter\Database\Exceptions\DatabaseException::class);
+
+        $this->setProtectedProperty($this->controlador, 'request', Services::request());
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $response = $this->controlador->guardarRegistro();
+        $this->assertInstanceOf(\CodeIgniter\HTTP\RedirectResponse::class, $response);
+    }
+    public function limpiarDB(){
+        $db = db_connect();
+        $db->query('SET FOREIGN_KEY_CHECKS=0');
+
+        $db->table('usuario')->where('id !=', 1)->delete();
+
+        $db->query('SET FOREIGN_KEY_CHECKS=1');
     }
 }

@@ -143,7 +143,6 @@ class subTareaController extends BaseController
 public function crear()
 {
     if ($this->request->isAJAX()) {
-    
         $data = [
             'titulo' => $this->request->getPost('titulo'),
             'descripcion' => $this->request->getPost('descripcion'),
@@ -155,7 +154,7 @@ public function crear()
             'fecha_recordatorio' => $this->request->getPost('fecha_recordatorio')
         ];
 
-      
+        
         if (empty($data['titulo']) || empty($data['tarea_id'])) {
             return $this->response->setJSON([
                 'success' => false,
@@ -312,7 +311,7 @@ public function editar($id)
             'fecha_vencimiento' => $this->request->getPost('fecha_vencimiento'),
             'fecha_recordatorio' => $this->request->getPost('fecha_recordatorio'),
             'color' => $this->request->getPost('color'),
-            'tarea_id' => $this->request->getPost('tarea_id')
+            'tarea_id' => $this->request->getPost('tarea_id'),
         ];
 
         if (empty($data['titulo']) || empty($data['tarea_id'])) {

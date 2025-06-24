@@ -114,7 +114,8 @@ $colaboradores = $modeloColaboracion
         if ($modeloTarea->insert($data)) {
             return redirect()->to('/')->with('mensaje', 'Tarea creada con éxito');
         } else {
-            dd($modeloTarea->errors());
+            return redirect()->to('/')->with('errors', $modeloTarea->errors());
+            //dd($modeloTarea->errors());
         }
     }
     
